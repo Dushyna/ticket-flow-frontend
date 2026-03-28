@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {type ViewMode} from './types.ts'
+import {useSelector} from "react-redux";
+import type {RootState} from "../app/store.ts";
 
 
 const AboutPage = () => {
     const navigate = useNavigate();
+    const { isAuthenticated } = useSelector((state: RootState) => state.auth);
     const [viewMode, setViewMode] = useState<ViewMode>('viewer');
 
     const content: Record<ViewMode, {
@@ -24,7 +27,7 @@ const AboutPage = () => {
                 { title: 'Loyalty Program', desc: 'Collect points and get free popcorn or discounts.', icon: '✨' }
             ],
             cta: 'Start Browsing Movies',
-            path: '/movies' // Представим, что тут список фильмов
+            path: '/movies'
         },
         owner: {
             title: 'For Cinema Owners',
@@ -35,9 +38,8 @@ const AboutPage = () => {
                 { title: 'Hall Designer', desc: 'Create custom seat layouts for any type of theater.', icon: '🏗️' },
                 { title: 'Cloud Access', desc: 'Manage everything from anywhere, on any device.', icon: '☁️' }
             ],
-            cta: 'Register as Partner',
-            path: '/register'
-        }
+            cta: isAuthenticated ? 'Go to Dashboard' : 'Register as Partner',
+            path: isAuthenticated ? '/dashboard' : '/register'        }
     };
 
     const active = content[viewMode];
@@ -68,7 +70,7 @@ const AboutPage = () => {
                 {active.subtitle}
             </p>
 
-            {/* Сетка преимуществ */}
+            {/* Benefits Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left mb-12">
                 {active.features.map((f, i) => (
                     <div key={i} className="p-6 bg-white/5 rounded-2xl border border-white/10 hover:bg-indigo-500/10 transition-all group">

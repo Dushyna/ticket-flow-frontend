@@ -1,14 +1,27 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { type UserResponseDto, type LoginRequest } from '../types/types';
 
 export const authApi = createApi({
     reducerPath: 'authApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080/api/v1/auth' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080/api/v1/auth',
+        credentials: 'include',
+    }),
     endpoints: (builder) => ({
-        login: builder.mutation({
+        login: builder.mutation<UserResponseDto, LoginRequest>({
             query: (credentials) => ({
                 url: '/login',
                 method: 'POST',
                 body: credentials,
+            }),
+        }),
+        getCurrentUser: builder.query<UserResponseDto, void>({
+            query: () => '/me',
+        }),
+
+        logout: builder.mutation<void, void>({
+            query: () => ({
+                url: '/logout',
+                method: 'POST',
             }),
         }),
         registerCustomer: builder.mutation({
@@ -53,5 +66,6 @@ export const {
     useLazyConfirmRegistrationQuery,
     useRegisterTenantMutation,
     useForgotPasswordMutation,
+    useGetCurrentUserQuery,
     useResetPasswordMutation
 } = authApi;
