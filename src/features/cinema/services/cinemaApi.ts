@@ -36,6 +36,22 @@ export const cinemaApi = createApi({
             query: (cinemaId) => `/halls/cinema/${cinemaId}`,
             providesTags: ['Halls'],
         }),
+
+        getHallById: builder.query<MovieHallResponseDto, string>({
+            query: (id) => `/halls/${id}`,
+            providesTags: (_result, _error, id) => [{ type: 'Halls', id }],
+        }),
+        updateHall: builder.mutation<MovieHallResponseDto, { id: string; body: MovieHallCreateDto }>({
+            query: ({ id, body }) => ({
+                url: `/halls/${id}`,
+                method: 'PUT',
+                body,
+            }),
+
+            invalidatesTags: (_result, _error, { id }) => [{ type: 'Halls', id }, 'Halls'],
+        }),
+
+
     }),
 });
 
@@ -43,5 +59,7 @@ export const {
     useGetCinemasQuery,
     useCreateHallMutation,
     useCreateCinemaMutation,
+    useGetHallByIdQuery,
+    useUpdateHallMutation,
     useGetHallsByCinemaQuery
 } = cinemaApi;
