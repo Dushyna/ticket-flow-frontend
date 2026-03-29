@@ -1,5 +1,6 @@
 import {useNavigate} from 'react-router-dom';
 import {useGetCinemasQuery} from "../features/cinema/services/cinemaApi.ts";
+import CinemaCard from "../components/CinemaCard.tsx";
 
 const DashboardPage = () => {
     const navigate = useNavigate();
@@ -37,15 +38,7 @@ const DashboardPage = () => {
 
                 {!isLoading && cinemas && cinemas.length > 0 ? (
                     cinemas.map((cinema) => (
-                        <div
-                            key={cinema.id}
-                            className="p-8 bg-white/5 border border-white/10 rounded-3xl hover:bg-white/10 hover:border-indigo-500/50 transition-all group cursor-pointer"
-                        >
-                            <h3 className="text-2xl font-black uppercase italic group-hover:text-indigo-400 transition-colors">
-                                {cinema.name}
-                            </h3>
-                            <p className="text-slate-400 text-sm italic mt-2">{cinema.address || 'No address'}</p>
-                        </div>
+                        <CinemaCard key={cinema.id} cinema={cinema} />
                     ))
                 ) : (
 
