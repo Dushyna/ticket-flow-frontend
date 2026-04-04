@@ -9,6 +9,8 @@ interface HallSvgGridProps {
     onColumnClick: (c: number) => void;
     isZoomedOut: boolean;
     svgRef: React.RefObject<SVGSVGElement | null>;
+    selectedSeats?: { r: number, c: number }[];
+    occupiedSeats?: { row: number; col: number }[];
 }
 
 export const HallSvgGrid = ({
@@ -18,7 +20,9 @@ export const HallSvgGrid = ({
                                 onRowClick,
                                 onColumnClick,
                                 isZoomedOut,
-                                svgRef
+                                svgRef,
+                                selectedSeats,
+                                occupiedSeats
                             }: HallSvgGridProps) => {
 
     const getSeatNumber = (row: ZoneType[], currentIdx: number) => {
@@ -67,12 +71,13 @@ export const HallSvgGrid = ({
                                 {row.map((zoneId, cIdx) => {
                                     const zoneConfig = configs.find(z => z.id === zoneId);
                                     const isAisle = zoneId === 'aisle';
-
+                                    const isOccupied = occupiedSeats?.some((s: {row: number, col: number}) => s.row === rIdx && s.col === cIdx);
+                                    const isSelected = selectedSeats?.some((s: {r: number, c: number}) => s.r === rIdx && s.c === cIdx);
                                     return (
                                         <g
                                             key={`${rIdx}-${cIdx}`}
                                             className="cursor-pointer group"
-                                            onClick={() => onSeatClick(rIdx, cIdx)}
+                                            onClick={() => !isOccupied && onSeatClick(rIdx, cIdx)}
                                         >
                                             <rect
                                                 x={cIdx * 45 + 5}
@@ -80,14 +85,21 @@ export const HallSvgGrid = ({
                                                 width="35"
                                                 height="35"
                                                 rx="8"
-                                                fill={isAisle ? 'rgba(255,255,255,0.05)' : (zoneConfig?.color || '#4f46e5')}
-                                                className="transition-all duration-200 stroke-white/10 group-hover:scale-110 origin-center"
+                                                fill={
+                                                    isOccupied ? '#1e293b' :
+                                                        isSelected ? '#fbbf24' :
+                                                            isAisle ? 'rgba(255,255,255,0.05)' :
+                                                                (zoneConfig?.color || '#4f46e5')
+                                                }
+                                                className={`transition-all duration-200 stroke-white/10 origin-center ${
+                                                    isOccupied ? 'opacity-30' : 'group-hover:scale-110'
+                                                } ${isSelected ? 'shadow-[0_0_15px_#fbbf24]' : ''}`}
                                                 style={{
                                                     transformOrigin: `${cIdx * 45 + 22.5}px ${rIdx * 45 + 22.5}px`,
-                                                    filter: !isAisle ? `drop-shadow(0 0 5px ${zoneConfig?.color}44)` : 'none'
+                                                    filter: isSelected ? 'drop-shadow(0 0 8px #fbbf24)' : 'none'
                                                 }}
                                             />
-                                            {!isZoomedOut && !isAisle && (
+                                            {!isZoomedOut && !isAisle && !isOccupied && (
                                                 <text
                                                     x={cIdx * 45 + 22.5}
                                                     y={rIdx * 45 + 27}
