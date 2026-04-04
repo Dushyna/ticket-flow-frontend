@@ -17,6 +17,7 @@ import AboutPage from './pages/AboutPage';
 import CreateHallPage from "./pages/hall/CreateHallPage.tsx";
 import DashboardPage from "./pages/DashboardPage.tsx";
 import CreateCinemaPage from "./pages/CreateCinemaPage.tsx";
+import HallBookingPage from "./pages/booking/HallBookingPage.tsx";
 
 const OAuth2RedirectHandler = () => {
     const navigate = useNavigate();
@@ -84,6 +85,7 @@ const AppContent = () => {
                     <Route path="/cinema/create-hall" element={<CreateHallPage />} />
                     <Route path="/cinema/edit-hall/:hallId" element={<CreateHallPage />} />
                     <Route path="/cinema/create" element={<CreateCinemaPage />} />
+                    <Route path="/hall/book/:hallId" element={<HallBookingPage />} />
                 </Routes>
             </main>
             <Footer />

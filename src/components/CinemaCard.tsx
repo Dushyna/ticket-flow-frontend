@@ -33,15 +33,40 @@ const CinemaCard = ({ cinema }: { cinema: Cinema }) => {
                         {halls.map(hall => (
                             <div
                                 key={hall.id}
-                                onClick={() => navigate(`/cinema/edit-hall/${hall.id}`)}
                                 className="flex justify-between items-center p-4 bg-black/40 rounded-2xl border border-white/5 hover:border-indigo-500/30 transition-all cursor-pointer group/hall"
                             >
+                                <div className="flex flex-col">
                                 <span className="text-sm font-bold text-slate-300 group-hover/hall:text-white transition-colors">
                                     {hall.name}
                                 </span>
                                 <span className="text-[10px] font-black text-slate-600 uppercase italic">
                                     {hall.rowsCount}x{hall.colsCount} • Edit Layout →
                                 </span>
+                            </div>
+                                <div className="flex gap-2">
+                                    {/* User button - booking */}
+                                    <button
+                                        onClick={(e) =>{
+                                            e.stopPropagation();
+                                            navigate(`/hall/book/${hall.id}`)}
+                                        }
+                                        className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-[10px] font-black uppercase italic text-white transition-all shadow-lg shadow-indigo-500/10"
+                                    >
+                                        🎟️ Buy Tickets
+                                    </button>
+
+                                    {/* Admin button - Edit */}
+                                    <button
+                                        onClick={(e) =>{
+                                            e.stopPropagation();
+                                            navigate(`/cinema/edit-hall/${hall.id}`)}
+                                        }
+                                            className="p-2 bg-white/5 hover:bg-white/10 rounded-xl border border-white/5 transition-colors"
+                                        title="Edit Layout"
+                                    >
+                                    <span className="text-[10px]">⚙️</span>
+                                </button>
+                            </div>
                             </div>
                         ))}
                     </div>
