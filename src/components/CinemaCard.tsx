@@ -1,6 +1,7 @@
 import { useGetHallsByCinemaQuery } from '../features/cinema/services/cinemaApi';
 import { useNavigate } from 'react-router-dom';
 import { type Cinema } from '../features/cinema/utils/utils';
+import { Ticket, Settings } from "lucide-react";
 
 const CinemaCard = ({ cinema }: { cinema: Cinema }) => {
     const navigate = useNavigate();
@@ -52,7 +53,8 @@ const CinemaCard = ({ cinema }: { cinema: Cinema }) => {
                                         }
                                         className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-[10px] font-black uppercase italic text-white transition-all shadow-lg shadow-indigo-500/10"
                                     >
-                                        🎟️ Buy Tickets
+                                        <Ticket size={14} className="mr-2" />
+                                         Buy Tickets
                                     </button>
 
                                     {/* Admin button - Edit */}
@@ -64,7 +66,10 @@ const CinemaCard = ({ cinema }: { cinema: Cinema }) => {
                                             className="p-2 bg-white/5 hover:bg-white/10 rounded-xl border border-white/5 transition-colors"
                                         title="Edit Layout"
                                     >
-                                    <span className="text-[10px]">⚙️</span>
+                                        <Settings
+                                            size={14}
+                                            className="text-slate-500 group-hover/settings:text-indigo-400 transition-colors"
+                                        />
                                 </button>
                             </div>
                             </div>

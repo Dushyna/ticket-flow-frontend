@@ -28,3 +28,31 @@ export interface Cinema {
     address: string;
     organizationId: string;
 }
+export interface Movie {
+    id: string;
+    title: string;
+    description: string;
+    durationMinutes: number;
+    posterUrl: string;
+    releaseDate: string;
+}
+
+export interface ShowtimeRequest {
+    id?: string;
+    hallId: string;
+    startTime: string;
+    endTime?: string;
+    movieId: string;
+    basePrice: number;
+}
+
+export interface Showtime {
+    id: string;
+    movieId: string;
+    movieTitle: string;
+    hallName: string;
+    startTime: string;
+    endTime: string;
+    basePrice: number;
+}
+
