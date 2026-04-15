@@ -9,6 +9,13 @@ import { HallSvgGrid } from './HallSvgGrid';
 import ZonePicker from './ZonePicker';
 import HallLegend from './HallLegend';
 import HallScreen from './HallScreen';
+import {
+    Undo2,
+    Paintbrush,
+    Trash2,
+    ZoomIn,
+    ZoomOut
+} from 'lucide-react';
 
 import {INITIAL_ZONES, type ZoneConfig, type ZoneType} from './types.ts';
 import { useHallEditor } from '../../features/cinema/hooks/useHallEditor';
@@ -58,7 +65,8 @@ const CreateHallPage = () => {
             id: newId,
             label: 'New Category',
             color: selectedColor,
-            glow: selectedColor + '66'
+            glow: selectedColor + '66',
+            multiplier: 1.0
         };
 
         setHallData(prev => ({
@@ -78,10 +86,10 @@ const CreateHallPage = () => {
         if (activeZone === id) setActiveZone('aisle');
     };
 
-    const updateZoneLabel = (id: string, label: string) => {
+    const updateZoneLabel = (id: string, label: string, multiplier: number) => {
         setHallData(prev => ({
             ...prev,
-            configs: prev.configs.map(z => z.id === id ? { ...z, label } : z)
+            configs: prev.configs.map(z => z.id === id ? { ...z, label, multiplier } : z)
         }));
     };
 
@@ -103,6 +111,12 @@ const CreateHallPage = () => {
         }));
     };
 
+    const clearAll = () => {
+        setHallData(prev => ({
+            ...prev,
+            grid: prev.grid.map(row => row.map(() => 'aisle'))
+        }));
+    };
 
 
     useEffect(() => {
@@ -182,13 +196,49 @@ const CreateHallPage = () => {
 
             <div className="flex justify-between items-center mb-4 px-4">
                 <div className="flex gap-2">
-                    <button onClick={handleUndo} disabled={history.length === 0} className="...">Undo</button>
-                    <button onClick={() => fillAll(activeZone)} className="...">Fill All</button>
+                    {/* UNDO */}
+                    <button
+                        onClick={handleUndo}
+                        disabled={history.length === 0}
+                        className={`flex items-center gap-2 px-4 py-2 border rounded-xl text-[10px] font-black uppercase transition-all ${
+                            history.length > 0
+                                ? 'bg-white/10 border-white/20 text-white hover:bg-indigo-500/20 hover:border-indigo-500/50'
+                                : 'bg-white/5 border-white/5 text-slate-700 cursor-not-allowed'
+                        }`}
+                    >
+                        <Undo2 size={14} /> Undo
+                    </button>
+
+                    {/* FILL ALL */}
+                    <button
+                        onClick={() => fillAll(activeZone)}
+                        className="flex items-center gap-2 px-4 py-2 bg-indigo-600/10 border border-indigo-500/30 rounded-xl text-[10px] font-black text-indigo-400 uppercase hover:bg-indigo-600 hover:text-white transition-all"
+                    >
+                        <Paintbrush size={14} /> Fill All
+                    </button>
+
+                    {/* CLEAR ALL */}
+                    <button
+                        onClick={clearAll}
+                        className="flex items-center gap-2 px-4 py-2 bg-red-500/10 border border-red-500/30 rounded-xl text-[10px] font-black text-red-500 uppercase hover:bg-red-500 hover:text-white transition-all"
+                    >
+                        <Trash2 size={14} /> Clear All
+                    </button>
                 </div>
-                <button onClick={() => setIsZoomedOut(!isZoomedOut)} className="...">
-                    {isZoomedOut ? '🔍 Zoom In' : '🌐 Zoom Out'}
-                </button>
-            </div>
+
+                {/* ZOOM */}
+                <button
+                    onClick={() => setIsZoomedOut(!isZoomedOut)}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-xl border border-white/10 text-[10px] font-black uppercase transition-all ${
+                        isZoomedOut ? 'bg-indigo-600 border-indigo-400 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'
+                    }`}
+                >
+                    {isZoomedOut ? (
+                        <><ZoomIn size={14} /> Zoom In</>
+                    ) : (
+                        <><ZoomOut size={14} /> Zoom Out</>
+                    )}
+                </button>            </div>
 
             <HallStats grid={hallData.grid} configs={hallData.configs} />
             <HallScreen />

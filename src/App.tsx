@@ -20,6 +20,7 @@ import CreateCinemaPage from "./pages/CreateCinemaPage.tsx";
 import HallBookingPage from "./pages/booking/HallBookingPage.tsx";
 import MovieManagementPage from "./pages/admin/MovieManagementPage.tsx";
 import SchedulePage from "./pages/admin/SchedulePage.tsx";
+import TicketTypesPage from "./pages/admin/TicketTypesPage.tsx";
 
 const OAuth2RedirectHandler = () => {
     const navigate = useNavigate();
@@ -89,7 +90,8 @@ const AppContent = () => {
                     <Route path="/cinema/create" element={<CreateCinemaPage />} />
                     <Route path="/admin/movies" element={<MovieManagementPage />} />
                     <Route path="/admin/schedule" element={<SchedulePage />} />
-                    <Route path="/hall/book/:hallId" element={<HallBookingPage />} />
+                    <Route path="/admin/tickets" element={<TicketTypesPage />} />
+                    <Route path="/hall/book/:showtimeId" element={<HallBookingPage />} />
 
                 </Routes>
             </main>

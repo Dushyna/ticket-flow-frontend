@@ -1,6 +1,7 @@
 import {useNavigate} from 'react-router-dom';
 import {useGetCinemasQuery} from "../features/cinema/services/cinemaApi.ts";
 import CinemaCard from "../components/CinemaCard.tsx";
+import {Ticket} from "lucide-react";
 
 const DashboardPage = () => {
     const navigate = useNavigate();
@@ -14,6 +15,13 @@ const DashboardPage = () => {
                     My <span className="text-indigo-500">Theaters</span>
                 </h1>
                 <div className="flex gap-4">
+                    <button
+                        onClick={() => navigate('/admin/tickets')}
+                        className="flex items-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl font-black uppercase text-[10px] tracking-widest transition-all"
+                    >
+                        <Ticket size={14} className="text-indigo-400" />
+                        Pricing
+                    </button>
                     <button
                         onClick={() => navigate('/cinema/create')} 
                         className="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl font-black uppercase text-[10px] tracking-widest transition-all"

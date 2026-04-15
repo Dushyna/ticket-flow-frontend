@@ -1,12 +1,10 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi} from '@reduxjs/toolkit/query/react';
 import type { Cinema, MovieHallCreateDto, MovieHallResponseDto } from "../utils/utils.ts";
+import {baseQueryWithReauth} from "../../../app/baseQueryWithReauth.ts";
 
 export const cinemaApi = createApi({
     reducerPath: 'cinemaApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:8080/api/v1',
-        credentials: 'include',
-    }),
+    baseQuery: baseQueryWithReauth,
     tagTypes: ['Halls', 'Cinemas'],
     endpoints: (builder) => ({
         getCinemas: builder.query<Cinema[], void>({
@@ -44,7 +42,7 @@ export const cinemaApi = createApi({
         updateHall: builder.mutation<MovieHallResponseDto, { id: string; body: MovieHallCreateDto }>({
             query: ({ id, body }) => ({
                 url: `/halls/${id}`,
-                method: 'PUT',
+                method: 'PATCH',
                 body,
             }),
 

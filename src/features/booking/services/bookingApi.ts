@@ -1,33 +1,22 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-export interface SeatCoordinate {
-    row: number;
-    col: number;
-}
-
-export interface BookingCreateDto {
-    hallId: string;
-    seats: SeatCoordinate[];
-}
+import { createApi } from '@reduxjs/toolkit/query/react';
+import type {BookingCreateDto, SeatCoordinate} from "../utils/utils.ts";
+import { baseQueryWithReauth } from '../../../app/baseQueryWithReauth';
 
 export const bookingApi = createApi({
     reducerPath: 'bookingApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:8080/api/v1/bookings',
-        credentials: 'include',
-    }),
+    baseQuery: baseQueryWithReauth,
     tagTypes: ['Bookings'],
     endpoints: (builder) => ({
         createBooking: builder.mutation<void, BookingCreateDto>({
             query: (newBooking) => ({
-                url: '',
+                url: '/bookings',
                 method: 'POST',
                 body: newBooking,
             }),
             invalidatesTags: ['Bookings'],
         }),
         getOccupiedSeats: builder.query<SeatCoordinate[], string>({
-            query: (hallId) => `/hall/${hallId}/occupied`,
+            query: (showtimeId) => `/bookings/occupied/${showtimeId}`,
             providesTags: ['Bookings'],
         }),
     }),
