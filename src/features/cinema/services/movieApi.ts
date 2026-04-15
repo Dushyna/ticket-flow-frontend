@@ -1,14 +1,11 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type {Movie, Showtime, ShowtimeRequest} from "../utils/utils.ts";
-
+import { createApi } from '@reduxjs/toolkit/query/react';
+import type {Movie, Showtime, ShowtimeRequest, TicketType, TicketTypeRequest} from "../utils/utils.ts";
+import { baseQueryWithReauth } from '../../../app/baseQueryWithReauth';
 
 export const movieApi = createApi({
     reducerPath: 'movieApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:8080/api/v1',
-        credentials: 'include',
-    }),
-    tagTypes: ['Movies', 'Showtimes'],
+    baseQuery: baseQueryWithReauth,
+    tagTypes: ['Movies', 'Showtimes', 'TicketTypes'],
     endpoints: (builder) => ({
         getMovies: builder.query<Movie[], void>({
             query: () => '/movies',
@@ -25,10 +22,17 @@ export const movieApi = createApi({
             }),
             invalidatesTags: ['Movies'],
         }),
-
         getShowtimesByHall: builder.query<Showtime[], string>({
             query: (hallId) => `/showtimes/hall/${hallId}`,
             providesTags: ['Showtimes'],
+        }),
+        getShowtimesByCinema: builder.query<Showtime[], string>({
+            query: (cinemaId) => `/showtimes/cinema/${cinemaId}`,
+            providesTags: ['Showtimes'],
+        }),
+        getShowtimeById: builder.query<Showtime, string>({
+            query: (id) => `/showtimes/${id}`,
+            providesTags: (_result, _error, id) => [{ type: 'Showtimes', id }],
         }),
         createShowtime: builder.mutation<Showtime, Partial<Showtime>>({
             query: (showtime) => ({ url: '/showtimes', method: 'POST', body: showtime }),
@@ -48,7 +52,32 @@ export const movieApi = createApi({
             invalidatesTags: ['Showtimes'],
         }),
 
+        getMyTicketTypes: builder.query<TicketType[], void>({
+            query: () => '/ticket-types/my',
+            providesTags: ['TicketTypes'],
+        }),
 
+        getTicketTypesByOrg: builder.query<TicketType[], string>({
+            query: (orgId) => `/ticket-types/organization/${orgId}`,
+            providesTags: ['TicketTypes'],
+        }),
+
+        createTicketType: builder.mutation<TicketType, TicketTypeRequest>({
+            query: (body) => ({
+                url: '/ticket-types',
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ['TicketTypes'],
+        }),
+
+        deleteTicketType: builder.mutation<void, string>({
+            query: (id) => ({
+                url: `/ticket-types/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['TicketTypes'],
+        }),
 
     }),
 });
@@ -58,7 +87,13 @@ export const {
     useCreateMovieMutation,
     useDeleteMovieMutation,
     useGetShowtimesByHallQuery,
+    useGetShowtimesByCinemaQuery,
+    useGetShowtimeByIdQuery,
     useCreateShowtimeMutation,
     useUpsertShowtimeMutation,
-    useDeleteShowtimeMutation
+    useDeleteShowtimeMutation,
+    useGetMyTicketTypesQuery,
+    useGetTicketTypesByOrgQuery,
+    useCreateTicketTypeMutation,
+    useDeleteTicketTypeMutation
 } = movieApi;

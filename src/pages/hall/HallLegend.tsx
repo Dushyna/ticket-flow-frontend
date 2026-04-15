@@ -1,4 +1,5 @@
 import type {ZoneConfig} from "./types.ts";
+import {Eraser} from 'lucide-react';
 
 interface HallLegendProps {
     configs: ZoneConfig[];
@@ -45,7 +46,7 @@ const HallLegend = ({ configs }: HallLegendProps) => {
                     <div className="flex items-start gap-3">
                         <div className="mt-1 w-2 h-2 rounded-full bg-slate-500" />
                         <p className="text-[10px] text-slate-500 uppercase leading-relaxed font-medium">
-                            Use the <b className="text-white italic">Eraser 🧽</b> tool to quickly create aisles and passages.
+                            Use the <b className="text-white italic"> <Eraser size={14} />Eraser</b> tool to quickly create aisles and passages.
                         </p>
                     </div>
                 </div>

@@ -15,6 +15,7 @@ export interface MovieHallResponseDto {
     id: string;
     name: string;
     cinemaId: string;
+    organizationId: string;
     rowsCount: number;
     colsCount: number;
     layoutConfig: {
@@ -50,9 +51,22 @@ export interface Showtime {
     id: string;
     movieId: string;
     movieTitle: string;
+    hallId: string;
     hallName: string;
     startTime: string;
     endTime: string;
     basePrice: number;
 }
 
+export interface TicketType {
+    id: string;
+    label: string;
+    discount: number;
+    isDefault: boolean;
+}
+
+export interface TicketTypeRequest {
+    label: string;
+    discount: number;
+    isDefault: boolean;
+}

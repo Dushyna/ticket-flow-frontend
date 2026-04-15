@@ -76,7 +76,7 @@ export const HallSvgGrid = ({
                                     return (
                                         <g
                                             key={`${rIdx}-${cIdx}`}
-                                            className="cursor-pointer group"
+                                            className={`${isOccupied ? 'cursor-not-allowed' : 'cursor-pointer'} group`}
                                             onClick={() => !isOccupied && onSeatClick(rIdx, cIdx)}
                                         >
                                             <rect
@@ -86,17 +86,17 @@ export const HallSvgGrid = ({
                                                 height="35"
                                                 rx="8"
                                                 fill={
-                                                    isOccupied ? '#1e293b' :
+                                                    isOccupied ? '#7f1d1d' :
                                                         isSelected ? '#fbbf24' :
                                                             isAisle ? 'rgba(255,255,255,0.05)' :
                                                                 (zoneConfig?.color || '#4f46e5')
                                                 }
-                                                className={`transition-all duration-200 stroke-white/10 origin-center ${
-                                                    isOccupied ? 'opacity-30' : 'group-hover:scale-110'
-                                                } ${isSelected ? 'shadow-[0_0_15px_#fbbf24]' : ''}`}
+                                                className={`transition-all duration-200 origin-center ${
+                                                    isOccupied ? 'stroke-red-500/50' : 'stroke-white/10 group-hover:scale-110'
+                                                }`}
                                                 style={{
                                                     transformOrigin: `${cIdx * 45 + 22.5}px ${rIdx * 45 + 22.5}px`,
-                                                    filter: isSelected ? 'drop-shadow(0 0 8px #fbbf24)' : 'none'
+                                                    filter: isSelected ? 'drop-shadow(0 0 8px #fbbf24)' : isOccupied ? 'saturate(1.5)' : 'none'
                                                 }}
                                             />
                                             {!isZoomedOut && !isAisle && !isOccupied && (
@@ -109,7 +109,16 @@ export const HallSvgGrid = ({
                                                     {getSeatNumber(row, cIdx)}
                                                 </text>
                                             )}
-                                        </g>
+                                            {!isZoomedOut && isOccupied && (
+                                                <text
+                                                    x={cIdx * 45 + 22.5}
+                                                    y={rIdx * 45 + 27}
+                                                    textAnchor="middle"
+                                                    className="fill-red-200/50 text-[14px] font-black pointer-events-none"
+                                                >
+                                                    ✕
+                                                </text>
+                                            )}                                        </g>
                                     );
                                 })}
                             </g>
