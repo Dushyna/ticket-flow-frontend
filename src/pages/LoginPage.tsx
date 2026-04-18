@@ -8,7 +8,7 @@ import DynamicForm from '../components/DynamicForm';
 import { type FieldConfig } from '../components/types';
 import { type FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import * as Yup from 'yup';
-
+import { FcGoogle } from 'react-icons/fc';
 interface LoginValues {
     email: string;
     password: string;
@@ -75,9 +75,9 @@ const LoginPage = () => {
 
                     <a
                         href="http://localhost:8080/oauth2/authorization/google"
-                        className="w-full flex items-center justify-center py-3 px-4 bg-white border border-slate-200 rounded-xl shadow-sm text-sm font-bold text-slate-700 hover:bg-slate-50 transition-all mb-8"
+                        className="w-full flex items-center justify-center py-4 px-4 bg-white/5 border border-white/10 rounded-2xl text-sm font-black uppercase tracking-widest text-white hover:bg-indigo-600/20 transition-all mb-8 shadow-lg shadow-indigo-500/10"
                     >
-                        <img src="https://www.svgrepo.com" className="w-5 h-5 mr-3" alt="Google" />
+                        <FcGoogle className="text-xl mr-3" />
                         Google Account
                     </a>
 
