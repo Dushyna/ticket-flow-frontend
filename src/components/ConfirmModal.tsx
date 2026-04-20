@@ -1,4 +1,5 @@
 import { createPortal } from 'react-dom';
+import { useTranslation } from 'react-i18next';
 
 type ConfirmModalProps = {
     title?: string;
@@ -11,14 +12,19 @@ type ConfirmModalProps = {
 };
 
 const ConfirmModal = ({
-                          title = "Confirm action",
+                          title,
                           message,
-                          confirmText = "Discard",
-                          cancelText = "Cancel",
+                          confirmText,
+                          cancelText,
                           onConfirm,
                           onCancel,
                           isLoading = false,
                       }: ConfirmModalProps) => {
+    const { t } = useTranslation();
+    const modalTitle = title || t('common.confirm_title');
+    const modalConfirm = confirmText || t('common.delete');
+    const modalCancel = cancelText || t('common.cancel');
+
     const modalContent = (
         <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-300">
             {/* Overlay for closing */}
@@ -31,7 +37,7 @@ const ConfirmModal = ({
                         ⚠️
                     </div>
                     <h2 className="text-xl font-extrabold text-slate-900 tracking-tight">
-                        {title}
+                        {modalTitle}
                     </h2>
                 </div>
 
@@ -47,7 +53,7 @@ const ConfirmModal = ({
                         disabled={isLoading}
                         className="px-5 py-2.5 text-sm font-bold text-slate-600 bg-slate-100 rounded-xl hover:bg-slate-200 transition-all disabled:opacity-50"
                     >
-                        {cancelText}
+                        {modalCancel}
                     </button>
 
                     {/* Confirm (Action) Button */}
@@ -63,10 +69,10 @@ const ConfirmModal = ({
                                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                 </svg>
-                                <span>Wait...</span>
+                                <span>{t('common.processing')}</span>
                             </>
                         ) : (
-                            confirmText
+                            modalConfirm
                         )}
                     </button>
                 </div>

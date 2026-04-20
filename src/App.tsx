@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { useGetCurrentUserQuery } from './features/auth/services/authApi';
 import { setCredentials, logOut } from './features/auth/slice/authSlice';
+import { type RootState } from './app/store';
 
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -21,20 +21,17 @@ import HallBookingPage from "./pages/booking/HallBookingPage.tsx";
 import MovieManagementPage from "./pages/admin/MovieManagementPage.tsx";
 import SchedulePage from "./pages/admin/SchedulePage.tsx";
 import TicketTypesPage from "./pages/admin/TicketTypesPage.tsx";
+import {useAppDispatch, useAppSelector} from "./app/hooks.ts";
 
 const OAuth2RedirectHandler = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const { data: user, isSuccess, isError } = useGetCurrentUserQuery();
+    const { user, isAuthenticated } = useAppSelector((state: RootState) => state.auth);
 
     useEffect(() => {
-        if (isSuccess && user) {
-            dispatch(setCredentials(user));
+        if (isAuthenticated && user) {
             navigate('/dashboard');
-        } else if (isError) {
-            navigate('/login?error=oauth_failed');
         }
-    }, [user, isSuccess, isError, navigate, dispatch]);
+    }, [user, isAuthenticated, navigate]);
 
     return (
         <div className="flex items-center justify-center h-screen bg-slate-950">
@@ -46,7 +43,7 @@ const OAuth2RedirectHandler = () => {
 };
 
 const AppContent = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const { data: user, isSuccess, isError, isLoading } = useGetCurrentUserQuery();
 
     useEffect(() => {
@@ -103,7 +100,15 @@ const AppContent = () => {
 function App() {
     return (
         <BrowserRouter>
+            <Suspense fallback={
+                <div className="h-screen bg-slate-950 flex items-center justify-center">
+                    <div className="text-2xl font-black text-white uppercase italic animate-pulse">
+                        Loading Language...
+                    </div>
+                </div>
+            }>
             <AppContent />
+            </Suspense>
         </BrowserRouter>
     );
 }

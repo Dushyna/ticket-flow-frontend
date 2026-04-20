@@ -5,14 +5,16 @@ import {
     useCreateTicketTypeMutation,
     useDeleteTicketTypeMutation
 } from '../../features/cinema/services/movieApi';
-import { useDispatch } from 'react-redux';
 import { showNotification } from '../../features/notifications/slice/notificationSlice';
 import ConfirmModal from '../../components/ConfirmModal';
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import {useAppDispatch} from "../../app/hooks.ts";
+import { useTranslation } from 'react-i18next';
 
 const TicketTypesPage = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
+    const { t } = useTranslation();
     const { data: ticketTypes, isLoading } = useGetMyTicketTypesQuery();
     const [createTicketType, { isLoading: isCreating }] = useCreateTicketTypeMutation();
     const [deleteTicketType, { isLoading: isDeleting }] = useDeleteTicketTypeMutation();
@@ -28,15 +30,16 @@ const TicketTypesPage = () => {
         validationSchema: Yup.object({
             newLabel: Yup.string()
                 .trim()
-                .required("Category name is required"),
+                .required(t('ticket_types.error_label_required')),
 
             newDiscount: Yup.number()
-                .typeError("Must be a number")
-                .min(0, "Min 0")
-                .max(5, "Max 5")
-                .required("Required"),
+                .typeError(t('validation.must_be_number'))
+                .min(0, t('validation.min_value', { min: 0 }))
+                .max(5, t('validation.max_value', { max: 5 }))
+                .required(t('validation.required')),
         }),
         onSubmit: async (values, { resetForm }) => {
+            try {
             await createTicketType({
                 label: values.newLabel,
                 discount: values.newDiscount,
@@ -44,11 +47,18 @@ const TicketTypesPage = () => {
             }).unwrap();
 
             dispatch(showNotification({
-                message: "Ticket type added!",
+                message: t('ticket_types.success_create'),
                 type: "success"
             }));
 
             resetForm();
+        }catch (err) {
+                const errorData = err as { data?: { message?: string } };
+                dispatch(showNotification({
+                    message: errorData.data?.message || t('ticket_types.error_create'),
+                    type: "error"
+                }));
+            }
         }
     });
 
@@ -63,10 +73,10 @@ const TicketTypesPage = () => {
                     </div>
                     <div>
                         <h1 className="text-4xl font-black uppercase italic tracking-tighter text-white">
-                            Ticket <span className="text-indigo-500">Pricing</span>
+                            {t('ticket_types.title_part1')} <span className="text-indigo-500">{t('ticket_types.title_part2')}</span>
                         </h1>
                         <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest mt-2">
-                            Manage discounts and ticket categories
+                            {t('ticket_types.subtitle')}
                         </p>
                     </div>
                 </div>
@@ -75,15 +85,16 @@ const TicketTypesPage = () => {
                 <form onSubmit={formik.handleSubmit} className="bg-white/5 p-10 rounded-[40px] border border-white/10 mb-12 backdrop-blur-xl">
                     <div className="flex gap-6 items-center mb-6">
                         <div className="flex-1 space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-2">Category Name</label>
+                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-2">
+                                {t('ticket_types.label_name')}
+                            </label>
                             <input
                                 name="newLabel"
                                 value={formik.values.newLabel}
                                 onChange={formik.handleChange}
-                                placeholder="Enter the name of the ticket type"
+                                placeholder={t('ticket_types.placeholder_name')}
                                 onBlur={formik.handleBlur}
                                 className="w-full bg-black/40 border border-white/10 p-4 rounded-2xl text-sm font-bold outline-none focus:border-indigo-500 transition-all text-white"
-
                             />
 
                             {formik.touched.newLabel && formik.errors.newLabel && (
@@ -91,16 +102,19 @@ const TicketTypesPage = () => {
                                     {formik.errors.newLabel}
                                 </div>
                             )}
-                            <div className="text-[10px] text-slate-500 mt-2 ml-2">
-                                e.g. Adult, Student, Child, VIP
+                            <div className="text-[10px] text-slate-500 mt-2 ml-2 italic">
+                                {t('ticket_types.hint_names')}
                             </div>
                         </div>
 
                         <div className="w-40 space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-2">Price Multiplier</label>
+                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-2">
+                                {t('ticket_types.label_multiplier')}
+                            </label>
                             <div className="relative">
                                 <input
                                     type="number"
+                                    step="0.1"
                                     name="newDiscount"
                                     value={formik.values.newDiscount}
                                     onChange={formik.handleChange}
@@ -112,11 +126,12 @@ const TicketTypesPage = () => {
                                         {formik.errors.newDiscount}
                                     </div>
                                 )}
-
-                                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-600 uppercase">x Price</div>
+                                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-600 uppercase">
+                                    x {t('common.price')}
+                                </div>
                             </div>
-                            <div className="text-[10px] text-slate-500 mt-2 ml-2">
-                                e.g. 1 = normal, 0.8 ↓, 1.2 ↑
+                            <div className="text-[10px] text-slate-500 mt-2 ml-2 italic">
+                                {t('ticket_types.hint_multiplier')}
                             </div>
                         </div>
 
@@ -132,25 +147,25 @@ const TicketTypesPage = () => {
                     <div className="flex items-center justify-between px-2">
                         <label className="flex items-center gap-3 cursor-pointer group">
                             <div
-                                onClick={() =>
-                                    formik.setFieldValue("isDefault", !formik.values.isDefault)
-                                }
+                                onClick={() => formik.setFieldValue("isDefault", !formik.values.isDefault)}
                                 className={`w-6 h-6 rounded-lg border-2 transition-all flex items-center justify-center ${
                                     formik.values.isDefault ? 'bg-indigo-600 border-indigo-600' : 'border-white/10 bg-white/5 group-hover:border-white/20'
                                 }`}
                             >
                                 {formik.values.isDefault && <CheckCircle2 size={14} className="text-white" />}
                             </div>
-                            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-tight">Set as default for all bookings</span>
+                            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-tight">
+                {t('ticket_types.label_default')}
+            </span>
                         </label>
 
-                        <div className="text-[10px] font-bold text-slate-500 italic">
+                        <div className="text-[10px] font-bold italic">
                             {formik.values.newDiscount < 1 ? (
-                                <span className="text-emerald-500">⬇ {Math.round((1 - formik.values.newDiscount) * 100)}% Discount</span>
+                                <span className="text-indigo-500">⬇ {Math.round((1 - formik.values.newDiscount) * 100)}% {t('ticket_types.status_discount')}</span>
                             ) : formik.values.newDiscount > 1 ? (
-                                <span className="text-amber-500">⬆ {Math.round((formik.values.newDiscount - 1) * 100)}% Markup</span>
+                                <span className="text-indigo-700">⬆ {Math.round((formik.values.newDiscount - 1) * 100)}% {t('ticket_types.status_markup')}</span>
                             ) : (
-                                <span>Standard Price (No Change)</span>
+                                <span className="text-slate-500">{t('ticket_types.status_standard')}</span>
                             )}
                         </div>
                     </div>
@@ -159,7 +174,9 @@ const TicketTypesPage = () => {
                 {/* List of existing types */}
                 <div className="grid gap-4">
                     {isLoading ? (
-                        <div className="animate-pulse text-slate-500 uppercase font-black text-center py-10">Loading types...</div>
+                        <div className="animate-pulse text-slate-500 uppercase font-black text-center py-10">
+                            {t('common.loading')}
+                        </div>
                     ) : (
                         ticketTypes?.map((type) => (
                             <div key={type.id} className="group bg-white/5 border border-white/10 p-6 rounded-[32px] flex items-center justify-between hover:bg-white/[0.07] transition-all">
@@ -172,19 +189,19 @@ const TicketTypesPage = () => {
                                             <h3 className="font-black text-white text-lg uppercase italic tracking-tight">{type.label}</h3>
                                             {type.isDefault && (
                                                 <span className="flex items-center gap-1 text-[8px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full font-black uppercase tracking-widest border border-emerald-500/20">
-                                                    <CheckCircle2 size={8} /> Default
+                                                    <CheckCircle2 size={8} /> {t('ticket_types.badge_default')}
                                                 </span>
                                             )}
                                         </div>
                                         <p className="text-indigo-400 font-bold text-xs uppercase tracking-tighter">
-                                            Multiplier: {type.discount.toFixed(2)}x
+                                            {t('ticket_types.multiplier_display')}: {type.discount.toFixed(2)}x
                                         </p>
                                     </div>
                                 </div>
 
                                 <button
                                     onClick={() => setTypeToDelete(type.id)}
-                                    className="p-4 bg-red-500/10 text-red-500 rounded-2xl opacity-0 group-hover:opacity-100 hover:bg-red-500 hover:text-white transition-all"
+                                    className="p-4 bg-red-500/10 text-red-500 rounded-2xl md:opacity-0 group-hover:opacity-100 hover:bg-red-500 hover:text-white transition-all"
                                 >
                                     <Trash2 size={18} />
                                 </button>
@@ -197,15 +214,27 @@ const TicketTypesPage = () => {
             {/* Confirm Delete Modal */}
             {typeToDelete && (
                 <ConfirmModal
-                    title="Delete Ticket Type"
-                    message="Are you sure? This might affect existing price calculations."
+                    title={t('ticket_types.modal_delete_title')}
+                    message={t('ticket_types.modal_delete_msg')}
                     onConfirm={async () => {
-                        await deleteTicketType(typeToDelete).unwrap();
-                        setTypeToDelete(null);
-                        dispatch(showNotification({ message: "Deleted", type: "success" }));
+                        try {
+                            await deleteTicketType(typeToDelete).unwrap();
+                            setTypeToDelete(null);
+                            dispatch(showNotification({ message: t('ticket_types.success_delete'), type: "success" }));
+                        } catch (err) {
+                            const fetchError = err as { data?: { message?: string } };
+                            const errorMessage = fetchError.data?.message || t('ticket_types.error_delete');
+
+                            dispatch(showNotification({
+                                message: errorMessage,
+                                type: "error"
+                            }));
+                        }
                     }}
                     onCancel={() => setTypeToDelete(null)}
                     isLoading={isDeleting}
+                    confirmText={t('common.delete')}
+                    cancelText={t('common.cancel')}
                 />
             )}
         </div>

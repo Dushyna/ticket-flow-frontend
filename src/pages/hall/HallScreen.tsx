@@ -1,4 +1,7 @@
+import { useTranslation } from 'react-i18next';
+
 const HallScreen = () => {
+    const { t } = useTranslation();
     return (
         <div className="w-full flex flex-col items-center mb-16 mt-8 px-20">
             <div className="w-full max-w-4xl relative">
@@ -14,7 +17,7 @@ const HallScreen = () => {
             </div>
 
             <span className="text-[10px] font-black uppercase tracking-[1.5em] text-cyan-400 mt-6 text-center ml-[1.5em]">
-                Screen / Stage Area
+               {t('hall_editor.screen_area')}
             </span>
         </div>
     );

@@ -1,0 +1,363 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "apply": "Apply",
+    "go_back": "Back",
+    "processing": "Processing...",
+    "currency": "€",
+    "price": "Price",
+    "data_not_found": "Data not found",
+    "confirm_title": "Confirm action",
+    "submit": "Submit",
+    "discard_confirm_title": "Discard changes?",
+    "discard_confirm_msg": "You have unsaved changes. Are you sure you want to leave?",
+    "discard_yes": "Yes, discard",
+    "discard_no": "Keep editing",
+    "success": "Success",
+    "error": "Error",
+    "info": "Information",
+    "dismiss": "Dismiss"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "movies": "Movies",
+    "halls": "Halls",
+    "schedule": "Schedule",
+    "about": "About",
+    "logout": "Logout"
+  },
+  "login": {
+    "title": "Sign In",
+    "subtitle": "Welcome back! Please enter your details.",
+    "email_placeholder": "Email Address",
+    "pass_placeholder": "Password",
+    "google_btn": "Google Account",
+    "or_continue": "Or continue with",
+    "no_account": "Don't have an account?",
+    "register_link": "Register now",
+    "success_msg": "Welcome back!",
+    "error_invalid": "Invalid email or password",
+    "forgot_password": "Forgot password?"
+  },
+  "hall_designer": {
+    "title": "Hall Designer",
+    "subtitle": "Click on seats to change type or create aisles",
+    "rows": "Rows",
+    "cols": "Columns",
+    "apply_btn": "Apply Size",
+    "screen": "Screen / Stage",
+    "legend_standard": "Standard",
+    "legend_vip": "VIP",
+    "legend_aisle": "Aisle"
+  },
+  "logged_in_as": "Logged in as",
+  "dashboard": {
+    "title_my": "My",
+    "title_theaters": "Theaters",
+    "btn_pricing": "Pricing",
+    "btn_add_cinema": "+ Add Cinema",
+    "btn_create_hall": "+ Create New Hall",
+    "empty_msg": "No cinemas found.",
+    "empty_hint": "Click \"+ Add Cinema\" to start!"
+  },
+  "about": {
+    "toggle_viewer": "I am a Viewer",
+    "toggle_owner": "I am an Owner",
+    "viewer": {
+      "title": "For Movie Lovers",
+      "subtitle": "Find the best seats and enjoy your favorite movies.",
+      "cta": "Start Browsing Movies",
+      "features": [
+        {
+          "title": "Easy Booking",
+          "desc": "Pick your seat in seconds with our interactive map.",
+          "iconKey": "popcorn"
+        },
+        {
+          "title": "Instant Tickets",
+          "desc": "Get your QR-code ticket immediately after payment.",
+          "iconKey": "ticket"
+        },
+        {
+          "title": "Reminders",
+          "desc": "Never miss a show with our smart notification system.",
+          "iconKey": "bell"
+        },
+        {
+          "title": "Loyalty Program",
+          "desc": "Collect points and get free popcorn or discounts.",
+          "iconKey": "sparkles"
+        }
+      ]
+    },
+    "owner": {
+      "title": "For Cinema Owners",
+      "subtitle": "Powerful tools to scale your cinema business.",
+      "cta": "Register as Partner",
+      "cta_dashboard": "Go to Dashboard",
+      "features": [
+        {
+          "title": "Smart Scheduling",
+          "desc": "Manage movie sessions and hall layouts with ease.",
+          "iconKey": "calendar"
+        },
+        {
+          "title": "Real-time Analytics",
+          "desc": "Track ticket sales and revenue in one dashboard.",
+          "iconKey": "chart"
+        },
+        {
+          "title": "Hall Designer",
+          "desc": "Create custom seat layouts for any type of theater.",
+          "iconKey": "construction"
+        },
+        {
+          "title": "Cloud Access",
+          "desc": "Manage everything from anywhere, on any device.",
+          "iconKey": "cloud"
+        }
+      ]
+    }
+  },
+  "confirm": {
+    "loading_title": "Verifying...",
+    "success_title": "Success!",
+    "success_msg": "Account confirmed successfully! You can now log in.",
+    "redirect_msg": "Redirecting to login...",
+    "error_title": "Error",
+    "error_generic": "Confirmation failed. Link might be expired.",
+    "back_to_register": "Back to Registration"
+  },
+  "cinema_create": {
+    "title_start": "Add New",
+    "title_end": "Cinema",
+    "subtitle": "Register a new location for your theater chain",
+    "label_name": "Official Name",
+    "placeholder_name": "e.g. Star Cinema Central",
+    "label_address": "Physical Address",
+    "placeholder_address": "City, Street, Building",
+    "btn_submit": "Register Cinema",
+    "success_msg": "Cinema \"{{name}}\" successfully registered!",
+    "error_failed": "Failed to create cinema. Please try again."
+  },
+  "forgot_password": {
+    "title": "Reset Password",
+    "description": "Enter your email and we'll send you a link to reset your password.",
+    "email_label": "Email Address",
+    "email_placeholder": "your@email.com",
+    "submit_btn": "Send Reset Link",
+    "success_msg": "Reset link has been sent to your email!",
+    "error_generic": "Something went wrong. Try again later."
+  },
+  "validation": {
+    "email_invalid": "Invalid email format",
+    "email_required": "Email is required",
+    "must_be_number": "Must be a number",
+    "min_value": "Minimum value is {{min}}",
+    "max_value": "Maximum value is {{max}}",
+    "required": "Required"
+  },
+  "landing": {
+    "badge": "Professional Cinema Management",
+    "description": "The ultimate SaaS platform for managing movie tickets, theater schedules, and customer support with ease.",
+    "btn_get_started": "Get Started Free",
+    "btn_learn_more": "Learn More"
+  },
+  "register": {
+    "role_customer": "Viewer",
+    "role_owner": "Business Owner",
+    "title_customer": "Create Account",
+    "title_owner": "Business Registration",
+    "full_name": "Full Name",
+    "confirm_password": "Confirm Password",
+    "org_name": "Organization Name",
+    "org_contact": "Organization Contact Email",
+    "org_slug": "Organization URL Slug",
+    "submit_btn": "Register Now",
+    "success_msg": "Registration successful! Please check your email for confirmation code.",
+    "error_failed": "Registration failed."
+  },
+  "reset_password": {
+    "title": "New Password",
+    "description": "Please enter and confirm your new password.",
+    "label_new": "New Password",
+    "btn_submit": "Update Password",
+    "success_msg": "Password reset successful! You can now log in.",
+    "error_no_token": "Invalid or missing token.",
+    "error_failed": "Failed to reset password. Link might be expired."
+  },
+  "movies": {
+    "title_main": "Movie",
+    "title_accent": "Catalog",
+    "add_title": "Add New Movie",
+    "label_title": "Movie Title",
+    "placeholder_title": "Enter movie title",
+    "label_duration": "Duration",
+    "unit_min": "min",
+    "btn_add": "Add Movie",
+    "list_title": "Existing Movies",
+    "empty_list": "No movies added yet. Use the form to start.",
+    "modal_delete_title": "Delete Movie",
+    "modal_delete_msg": "Are you sure you want to delete \"{{title}}\"? This action cannot be undone."
+  },
+  "schedule_page": {
+    "title": "Schedule",
+    "editor": "Editor",
+    "subtitle": "Manage showtimes and hall availability",
+    "label_cinema": "Cinema Location",
+    "label_hall": "Hall",
+    "label_movie": "Movie to Screen",
+    "label_start": "Start Time",
+    "ends_at": "Ends",
+    "label_price": "Base Price",
+    "select_cinema": "Select Cinema",
+    "select_hall": "Select Hall",
+    "select_movie": "Select Movie",
+    "loading_halls": "Loading halls...",
+    "btn_cancel_edit": "Cancel Edit",
+    "btn_schedule": "Schedule Showtime",
+    "btn_update": "Update Showtime",
+    "status_checking": "Checking Availability...",
+    "status_past": "Invalid: Time in Past",
+    "error_fill_fields": "Please fill all fields",
+    "error_past_time": "Cannot schedule a showtime in the past!",
+    "error_generic": "Scheduling failed. Please check the data.",
+    "success_create": "Showtime scheduled!",
+    "success_update": "Showtime updated!"
+  },
+  "timeline": {
+    "title_hall": "Hall",
+    "title_timeline": "Timeline",
+    "subtitle": "Confirmed showtimes for this location",
+    "status_planned": "Planned",
+    "empty_msg": "No shows scheduled yet",
+    "price_label": "Price Tier",
+    "modal_delete_title": "Delete Showtime",
+    "modal_delete_msg": "Are you sure you want to remove the session for \"{{title}}\"? This cannot be undone.",
+    "success_delete": "Showtime removed from schedule",
+    "error_delete": "Failed to delete showtime. Please try again."
+  },
+  "ticket_types": {
+    "title_part1": "Ticket",
+    "title_part2": "Pricing",
+    "subtitle": "Manage ticket categories and multipliers",
+    "error_label_required": "Category name is required",
+    "success_create": "Ticket type added!",
+    "error_create": "Failed to add ticket type",
+    "label_name": "Category Name",
+    "placeholder_name": "Enter the name of the ticket type",
+    "hint_names": "e.g. Adult, Student, Child, VIP",
+    "label_multiplier": "Price Multiplier",
+    "hint_multiplier": "e.g. 1 = normal, 0.8 ↓, 1.2 ↑",
+    "label_default": "Set as Default",
+    "status_discount": "Discount",
+    "status_markup": "Markup",
+    "status_standard": "Standard Price (No Change)",
+    "badge_default": "Default",
+    "multiplier_display": "Multiplier",
+    "modal_delete_title": "Delete Ticket Type",
+    "modal_delete_msg": "Are you sure? This might affect existing price calculations.",
+    "success_delete": "Deleted successfully",
+    "error_delete": "Failed to delete ticket type"
+  },
+  "booking": {
+    "title": "Select Seats",
+    "screen": "Screen",
+    "error_taken": "This seat is already taken!",
+    "error_limit": "You can only select up to {{count}} seats per booking.",
+    "total_price": "Total Price",
+    "btn_confirm": "Confirm Booking",
+    "legend_available": "Available",
+    "legend_selected": "Selected",
+    "legend_occupied": "Occupied",
+    "success_booking": "Success! Your seats have been reserved.",
+    "error_failed": "Booking failed. Please try again later.",
+    "loading_status": "Loading Hall & Showtime...",
+    "tickets_count": "Tickets",
+    "total_amount": "Total Amount",
+    "btn_book_now": "Book Now",
+    "row": "Row",
+    "seat": "Seat",
+    "zone": "Zone",
+    "zone_standard": "Standard"
+  },
+  "cinema_select": {
+    "label": "Target Cinema",
+    "placeholder": "Choose location...",
+    "loading": "Loading cinemas...",
+    "error_empty": "No cinemas found!"
+  },
+  "hall_editor": {
+    "btn_undo": "Undo",
+    "btn_fill_all": "Fill All",
+    "btn_clear_all": "Clear All",
+    "success_save": "Hall plan saved successfully!",
+    "error_save": "Error saving hall plan",
+    "error_max_size": "Max size is {{size}}x{{size}}",
+    "error_no_seats": "Add at least one seat!",
+    "error_no_cinema": "Select a cinema!",
+    "btn_zoom_in": "Zoom In",
+    "btn_zoom_out": "Zoom Out",
+    "btn_export": "Export PNG",
+    "success_export": "Layout exported successfully!",
+    "title_hall": "Hall",
+    "title_designer": "Designer",
+    "label_name": "Hall Name",
+    "placeholder_name": "e.g. IMAX 1",
+    "label_rows": "Rows",
+    "label_cols": "Cols",
+    "mode_edit": "edit mode",
+    "mode_new": "new layout",
+    "btn_save": "Save Hall",
+    "screen_area": "Screen / Stage Area",
+    "stats_capacity": "Capacity",
+    "zones_title": "Manage Zones",
+    "btn_add_category": "+ Add New Zone",
+    "placeholder_zone_name": "Zone Name",
+    "zone_aisle": "Eraser"
+  },
+  "hall_legend": {
+    "zones_title": "Zone Categories",
+    "zone_hint_start": "Select a zone in the",
+    "zone_hint_highlight": "Manage Zones",
+    "zone_hint_end": "above to use it as a brush.",
+    "controls_title": "Designer Controls",
+    "click_title": "Single Click",
+    "click_desc": "Apply selected zone to a seat. Click again to clear.",
+    "numbers_title": "Row / Col Numbers",
+    "numbers_desc": "Click to fill the entire line with the active zone.",
+    "eraser_name": "Eraser",
+    "eraser_hint_start": "Use the",
+    "eraser_hint_end": "tool to quickly create aisles and passages."
+  },
+  "zones": {
+    "parterre": "Parterre",
+    "amphitheater": "Amphitheater",
+    "balcony": "Balcony",
+    "lodge": "VIP Lodge"
+  },
+  "cinema_card": {
+    "no_address": "No address",
+    "btn_edit_cinema": "Edit Cinema",
+    "upcoming_schedule": "Upcoming Schedule",
+    "loading_sessions": "Retrieving sessions...",
+    "no_sessions": "No active sessions found",
+    "halls_layout": "Halls Layout",
+    "edit_layout_hint": "Edit Layout",
+    "no_halls": "No halls created yet"
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  }
+
+
+
+
+
+
+
+}
+

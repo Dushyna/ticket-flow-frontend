@@ -4,9 +4,11 @@ import {useGetShowtimesByCinemaQuery} from "../features/cinema/services/movieApi
 import { type Cinema } from '../features/cinema/utils/utils';
 import { Ticket, Settings, Calendar} from "lucide-react";
 import { groupShowtimesByDate, formatTime } from '../features/cinema/utils/dateTimeUtils';
+import { useTranslation } from 'react-i18next';
 
 const CinemaCard = ({ cinema }: { cinema: Cinema }) => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const { data: halls, isLoading: isHallsLoading  } = useGetHallsByCinemaQuery(cinema.id);
     const { data: showtimes, isLoading: isShowtimesLoading } = useGetShowtimesByCinemaQuery(cinema.id);
 
@@ -18,24 +20,24 @@ const CinemaCard = ({ cinema }: { cinema: Cinema }) => {
                     <h3 className="text-2xl font-black uppercase italic group-hover:text-indigo-400 transition-colors">
                         {cinema.name}
                     </h3>
-                    <p className="text-slate-400 text-sm italic mt-1">{cinema.address || 'No address'}</p>
+                    <p className="text-slate-400 text-sm italic mt-1">{cinema.address || t('cinema_card.no_address')}</p>
                 </div>
                 <button
                     onClick={() => navigate(`/cinema/edit/${cinema.id}`)}
                     className="text-[10px] font-bold uppercase text-slate-500 hover:text-white transition-colors"
                 >
-                    Edit Cinema
+                    {t('cinema_card.btn_edit_cinema')}
                 </button>
             </div>
 
             {/* SECTION: USER - SHOWTIMES */}
             <div className="mb-8">
                 <h4 className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-indigo-500 mb-4">
-                    <Calendar size={12} /> Upcoming Schedule
+                    <Calendar size={12} /> {t('cinema_card.upcoming_schedule')}
                 </h4>
 
                 {isShowtimesLoading ? (
-                    <div className="text-[10px] text-slate-600 animate-pulse font-black uppercase">Retrieving sessions...</div>
+                    <div className="text-[10px] text-slate-600 animate-pulse font-black uppercase">{t('cinema_card.loading_sessions')}</div>
                 ) : Object.keys(groupedSessions).length > 0 ? (
                     <div className="space-y-6">
                         {Object.entries(groupedSessions).map(([dateLabel, sessions]) => (
@@ -61,7 +63,7 @@ const CinemaCard = ({ cinema }: { cinema: Cinema }) => {
                                                 <Ticket size={14} className="text-indigo-500/50 group-hover/btn:text-white transition-colors" />
                                             </div>
                                             <div className="text-[8px] font-bold text-slate-500 group-hover/btn:text-white/50 mt-1 uppercase">
-                                                {st.hallName} • ${st.basePrice}
+                                                {st.hallName} • {t('common.currency')}{st.basePrice}
                                             </div>
                                         </button>
                                     ))}
@@ -71,7 +73,7 @@ const CinemaCard = ({ cinema }: { cinema: Cinema }) => {
                     </div>
                 ) : (
                     <div className="text-[10px] text-slate-600 font-bold uppercase italic border border-white/5 p-4 rounded-2xl text-center">
-                        No active sessions found
+                        {t('cinema_card.no_sessions')}
                     </div>
                 )}
             </div>
@@ -79,9 +81,9 @@ const CinemaCard = ({ cinema }: { cinema: Cinema }) => {
 
             {/* SECTION: ADMIN - HALLS */}
             <div className="pt-6 border-t border-white/5">
-                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-500/50 mb-2">Halls Layout</h4>
+                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-500/50 mb-2">{t('cinema_card.halls_layout')}</h4>
 
-                {isHallsLoading && <div className="text-xs text-slate-600 animate-pulse uppercase">Loading halls...</div>}
+                {isHallsLoading && <div className="text-xs text-slate-600 animate-pulse uppercase">{t('cinema_select.loading')}</div>}
 
                 {halls && halls.length > 0 ? (
                     <div className="grid grid-cols-2 gap-2">
@@ -95,7 +97,7 @@ const CinemaCard = ({ cinema }: { cinema: Cinema }) => {
                                     {hall.name}
                                 </span>
                                 <span className="text-[10px] font-black text-slate-600 uppercase italic">
-                                    {hall.rowsCount}x{hall.colsCount} • Edit Layout →
+                                    {hall.rowsCount}x{hall.colsCount} • {t('cinema_card.edit_layout_hint')} →
                                 </span>
                             </div>
                                 <div className="flex gap-2">
@@ -107,7 +109,7 @@ const CinemaCard = ({ cinema }: { cinema: Cinema }) => {
                                             navigate(`/cinema/edit-hall/${hall.id}`)}
                                         }
                                             className="p-2 bg-white/5 hover:bg-white/10 rounded-xl border border-white/5 transition-colors"
-                                        title="Edit Layout"
+                                        title={t('cinema_card.edit_layout_hint')}
                                     >
                                         <Settings
                                             size={14}
@@ -119,7 +121,7 @@ const CinemaCard = ({ cinema }: { cinema: Cinema }) => {
                         ))}
                     </div>
                 ) : (
-                    !isHallsLoading && <div className="text-xs text-slate-600 italic">No halls created yet</div>
+                    !isHallsLoading && <div className="text-xs text-slate-600 italic">{t('cinema_card.no_halls')}</div>
                 )}
             </div>
         </div>

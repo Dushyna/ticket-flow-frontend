@@ -5,15 +5,17 @@ import {useGetTicketTypesByOrgQuery, useGetShowtimeByIdQuery}
     from '../../features/cinema/services/movieApi';
 import {HallSvgGrid} from '../hall/HallSvgGrid';
 import HallScreen from '../hall/HallScreen';
-import {useDispatch} from "react-redux";
 import {showNotification} from "../../features/notifications/slice/notificationSlice.ts";
 import {useCreateBookingMutation, useGetOccupiedSeatsQuery} from "../../features/booking/services/bookingApi.ts";
+import {useAppDispatch} from "../../app/hooks.ts";
+import {useTranslation} from 'react-i18next';
+import {ChevronLeft} from "lucide-react";
 
 const HallBookingPage = () => {
     const {showtimeId} = useParams<{ showtimeId: string }>();
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-
+    const dispatch = useAppDispatch();
+    const {t} = useTranslation();
 
     const {
         data: showtime,
@@ -40,7 +42,7 @@ const HallBookingPage = () => {
 
         const isOccupied = occupiedSeats?.some(s => s.row === r && s.col === c);
         if (isOccupied) {
-            dispatch(showNotification({message: "This seat is already taken!", type: "error"}));
+            dispatch(showNotification({message: t('booking.error_taken'), type: "error"}));
             return;
         }
 
@@ -50,6 +52,11 @@ const HallBookingPage = () => {
         } else {
             if (selectedSeats.length < 6) {
                 setSelectedSeats([...selectedSeats, {r, c, typeId: defaultTicketType?.id}]);
+            } else {
+                dispatch(showNotification({
+                    message: t('booking.error_limit', {count: 6}),
+                    type: "info"
+                }));
             }
         }
     };
@@ -84,19 +91,23 @@ const HallBookingPage = () => {
             };
 
             await createBooking(payload).unwrap();
-            dispatch(showNotification({message: "Success! Seats booked.", type: "success"}));
+            dispatch(showNotification({message: t('booking.success_booking'), type: "success"}));
             navigate('/dashboard');
         } catch (err) {
             const errorData = err as { data?: { message?: string } };
-            dispatch(showNotification({message: errorData.data?.message || "Booking failed", type: "error"}));
+            const errorMessage = errorData.data?.message || t('booking.error_failed');
+
+            dispatch(showNotification({
+                message: errorMessage,
+                type: "error"
+            }));
         }
     };
 
     if (isHallLoading || isOccupiedLoading || isShowtimeLoading)
-        return <div className="p-20 text-white animate-pulse uppercase font-black text-center">Loading Hall &
-            Showtime...</div>;
+        return <div className="p-20 text-white animate-pulse uppercase font-black text-center">{t('booking.loading_status')}</div>;
 
-    if (!hall || !showtime) return <div className="p-20 text-white text-center">Data not found</div>;
+    if (!hall || !showtime) return <div className="p-20 text-white text-center">{t('common.data_not_found')}</div>;
 
     return (
         <div className="min-h-screen bg-slate-950 p-10 flex flex-col items-center">
@@ -104,9 +115,10 @@ const HallBookingPage = () => {
                 <div>
                     <button
                         onClick={() => navigate(-1)}
-                        className="text-indigo-400 text-[10px] font-black uppercase tracking-widest mb-2 hover:text-white transition-colors"
+                        className="text-indigo-400 text-[10px] font-black uppercase tracking-widest mb-2 hover:text-white transition-colors flex items-center gap-2"
                     >
-                        ← Back to Cinema
+                        <ChevronLeft size={12} />
+                        {t('common.go_back')}
                     </button>
                     <h1 className="text-4xl font-black uppercase italic tracking-tighter">
                         {showtime.movieTitle}
@@ -117,14 +129,14 @@ const HallBookingPage = () => {
 
                 <div className="flex gap-4">
                     <div className="px-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-center">
-                        <span className="block text-[9px] font-black text-slate-500 uppercase mb-1">Tickets</span>
+                        <span className="block text-[9px] font-black text-slate-500 uppercase mb-1">{t('booking.tickets_count')}</span>
                         <span className="text-xl font-black text-white">{selectedSeats.length}</span>
                     </div>
                     <div
                         className="px-6 py-4 bg-indigo-500/10 border border-indigo-500/20 rounded-2xl text-center min-w-[120px]">
-                        <span className="block text-[9px] font-black text-indigo-400 uppercase mb-1">Total Amount</span>
+                        <span className="block text-[9px] font-black text-indigo-400 uppercase mb-1">{t('booking.total_amount')}</span>
                         <span className="text-xl font-black text-white italic">
-            ${totalPrice.toFixed(2)}
+            {t('common.currency')}{totalPrice.toFixed(2)}
         </span>
                     </div>
                     <button
@@ -132,8 +144,14 @@ const HallBookingPage = () => {
                         disabled={selectedSeats.length === 0 || isBookingProcessing}
                         className="px-10 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-20 disabled:cursor-not-allowed rounded-2xl font-black uppercase italic text-white transition-all shadow-lg shadow-indigo-500/20"
                     >
-                        {isBookingProcessing ? 'Processing...' : 'Book Now'}
-                    </button>
+                        {isBookingProcessing ? (
+                            <>
+                                <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                                {t('common.processing')}
+                            </>
+                        ) : (
+                            t('booking.btn_book_now')
+                        )}                    </button>
                 </div>
             </div>
 
@@ -145,13 +163,14 @@ const HallBookingPage = () => {
                         const zone = hall.layoutConfig.zoneConfigs.find(z => z.id === zoneId);
 
                         return (
-                            <div key={`${seat.r}-${seat.c}`} className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-2xl">
+                            <div key={`${seat.r}-${seat.c}`}
+                                 className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-2xl">
                                 <div className="flex flex-col">
                         <span className="text-[10px] font-black text-indigo-400 uppercase">
-                            Row {seat.r + 1}, Seat {seat.c + 1}
+                            {t('booking.row')} {seat.r + 1}, {t('booking.seat')} {seat.c + 1}
                         </span>
                                     <span className="text-[9px] font-bold text-slate-500 uppercase">
-                            Zone: {zone?.label || 'Standard'} {zone?.multiplier !== 1 && `(x${zone?.multiplier})`}
+                            {t('booking.zone')}: {zone?.label || t('booking.zone_standard')} {zone?.multiplier !== 1 && `(x${zone?.multiplier})`}
                         </span>
                                 </div>
 
@@ -159,10 +178,10 @@ const HallBookingPage = () => {
                                     value={seat.typeId}
                                     onChange={(e) => {
                                         const newSeats = [...selectedSeats];
-                                        newSeats[index] = { ...seat, typeId: e.target.value };
+                                        newSeats[index] = {...seat, typeId: e.target.value};
                                         setSelectedSeats(newSeats);
                                     }}
-                                    className="bg-slate-900 text-white text-[10px] font-black uppercase p-2 rounded-xl border border-white/10 outline-none focus:border-indigo-500"
+                                    className="bg-slate-900 text-white text-[10px] font-black uppercase p-2 rounded-xl border border-white/10 outline-none focus:border-indigo-500 cursor-pointer"
                                 >
                                     {ticketTypes?.map(tt => (
                                         <option key={tt.id} value={tt.id}>
@@ -199,15 +218,15 @@ const HallBookingPage = () => {
                 <div className="flex justify-center gap-8 mt-12 pt-8 border-t border-white/5">
                     <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-slate-800"/>
-                        <span className="text-[10px] font-black text-slate-500 uppercase">Available</span>
+                        <span className="text-[10px] font-black text-slate-500 uppercase">{t('booking.legend_available')}</span>
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-[#fbbf24]"/>
-                        <span className="text-[10px] font-black text-[#fbbf24] uppercase">Your Choice</span>
+                        <span className="text-[10px] font-black text-[#fbbf24] uppercase"> {t('booking.legend_selected')}</span>
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-red-900/50"/>
-                        <span className="text-[10px] font-black text-slate-700 uppercase">Occupied</span>
+                        <span className="text-[10px] font-black text-slate-700 uppercase">{t('booking.legend_occupied')}</span>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,5 @@
-import {useMemo, useState} from 'react';
+import { useMemo, useState } from 'react';
 import { useRegisterCustomerMutation, useRegisterTenantMutation } from '../features/auth/services/authApi';
-import { useDispatch } from 'react-redux';
 import { showNotification } from '../features/notifications/slice/notificationSlice';
 import { useNavigate } from 'react-router-dom';
 import { customerRegisterSchema, tenantRegisterSchema } from '../features/auth/utils/validationSchemas';
@@ -8,6 +7,8 @@ import DynamicForm from '../components/DynamicForm';
 import { type FieldConfig } from '../components/types';
 import { type FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import * as Yup from 'yup';
+import { useAppDispatch } from "../app/hooks.ts";
+import { useTranslation } from 'react-i18next';
 
 interface RegistrationValues {
     email: string;
@@ -21,25 +22,25 @@ interface RegistrationValues {
 
 const RegisterPage = () => {
     const [isTenant, setIsTenant] = useState(false);
+    const { t } = useTranslation();
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const [registerCustomer, { isLoading: isCustLoading }] = useRegisterCustomerMutation();
     const [registerTenant, { isLoading: isTenLoading }] = useRegisterTenantMutation();
 
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
     const customerFields: FieldConfig[] = [
-        { name: 'fullName', label: 'Full Name', placeholder: 'John Doe' },
-        { name: 'email', label: 'Email Address', type: 'email', placeholder: 'john@example.com' },
-        { name: 'password', label: 'Password', type: 'password', placeholder: '••••••••' },
-        { name: 'confirmPassword', label: 'Confirm Password', type: 'password', placeholder: '••••••••' }
+        { name: 'fullName', label: t('register.full_name'), placeholder: 'John Doe' },
+        { name: 'email', label: t('login.email_placeholder'), type: 'email', placeholder: 'john@example.com' },
+        { name: 'password', label: t('login.pass_placeholder'), type: 'password', placeholder: '••••••••' },
+        { name: 'confirmPassword', label: t('register.confirm_password'), type: 'password', placeholder: '••••••••' }
     ];
 
     const tenantFields: FieldConfig[] = [
         ...customerFields,
-        { name: 'organizationName', label: 'Organization Name', placeholder: 'TicketFlow LLC' },
-        { name: 'contactEmail', label: 'Organization Contact Email', type: 'email', placeholder: 'contact@cinemanikol.com' },
-        { name: 'slug', label: 'Organization URL Slug', placeholder: 'my-company-link' }
+        { name: 'organizationName', label: t('register.org_name'), placeholder: 'TicketFlow LLC' },
+        { name: 'contactEmail', label: t('register.org_contact'), type: 'email', placeholder: 'contact@cinema.com' },
+        { name: 'slug', label: t('register.org_slug'), placeholder: 'my-company-link' }
     ];
 
     const currentSchema = useMemo(() => {
@@ -50,80 +51,63 @@ const RegisterPage = () => {
         try {
             if (isTenant) {
                 const tenantPayload = {
-                    admin: {
-                        email: values.email,
-                        password: values.password
-                    },
-                    organization: {
-                        name: values.organizationName,
-                        slug: values.slug,
-                        contactEmail: values.contactEmail
-                    }
+                    admin: { email: values.email, password: values.password },
+                    organization: { name: values.organizationName, slug: values.slug, contactEmail: values.contactEmail }
                 };
                 await registerTenant(tenantPayload).unwrap();
             } else {
-                const customerPayload = {
-                    email: values.email,
-                    password: values.password
-                };
+                const customerPayload = { email: values.email, password: values.password };
                 await registerCustomer(customerPayload).unwrap();
             }
             dispatch(showNotification({
-                message: 'Registration successful! Please check your email for confirmation code.',
+                message: t('register.success_msg'),
                 type: 'success'
             }));
             navigate('/login');
         } catch (err) {
             const fetchError = err as FetchBaseQueryError;
-            const errorMessage = (fetchError.data as { message?: string })?.message
-                || 'Registration failed.';
-
-            dispatch(showNotification({
-                message: errorMessage,
-                type: 'error'
-            }));
+            const errorMessage = (fetchError.data as { message?: string })?.message || t('register.error_failed');
+            dispatch(showNotification({ message: errorMessage, type: 'error' }));
         }
     };
 
     return (
         <div className="max-w-2xl w-full p-10 bg-white/10 backdrop-blur-xl shadow-2xl rounded-[40px] border border-white/20 text-center animate-in fade-in duration-500">
             <div className="w-full">
-                {/* Switcher  */}
-                <div className="flex bg-slate-200/50 p-1 rounded-2xl mb-6 shadow-inner">
+                {/* Switcher - Fixed styling to match Glassmorphism */}
+                <div className="flex bg-black/20 p-1 rounded-2xl mb-10 border border-white/10 shadow-inner">
                     <button
                         onClick={() => setIsTenant(false)}
-                        className={`flex-1 py-2.5  font-bold rounded-xl transition-all ${!isTenant ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
+                        className={`flex-1 py-2.5 font-black uppercase text-[10px] tracking-widest rounded-xl transition-all ${!isTenant ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
                     >
-                        Customer
+                        {t('register.role_customer')}
                     </button>
                     <button
                         onClick={() => setIsTenant(true)}
-                        className={`flex-1 py-2.5  font-bold rounded-xl transition-all ${isTenant ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
+                        className={`flex-1 py-2.5 font-black uppercase text-[10px] tracking-widest rounded-xl transition-all ${isTenant ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
                     >
-                        Business Owner
+                        {t('register.role_owner')}
                     </button>
                 </div>
 
                 <DynamicForm
                     key={isTenant ? 'tenant' : 'customer'}
-                    title={isTenant ? "Business Registration" : "Create Account"}
+                    title={isTenant ? t('register.title_owner') : t('register.title_customer')}
                     validationSchema={currentSchema as Yup.AnyObjectSchema}
                     fields={isTenant ? tenantFields : customerFields}
                     initialValues={isTenant ? {
-                        email: '', password: '', confirmPassword: '', fullName: '', organizationName: '', slug: ''
-                        ,contactEmail: ''
-                    } : {
-                        email: '', password: '', confirmPassword: '', fullName: ''
-                    }}
+                        email: '', password: '', confirmPassword: '', fullName: '', organizationName: '', slug: '', contactEmail: ''
+                    } : { email: '', password: '', confirmPassword: '', fullName: '' }}
                     onSubmit={handleFormSubmit}
                     onClose={() => navigate('/')}
-                    submitText="Register Now"
+                    submitText={t('register.submit_btn')}
                     isLoading={isCustLoading || isTenLoading}
                 />
+
                 <p className="mt-8 text-center text-slate-500 text-sm font-medium">
-                    Already have an account?{' '}
+                    {t('login.no_account')}{' '}
                     <button onClick={() => navigate('/login')} className="text-indigo-600 font-bold hover:underline">
-                        Sign In
+                        {t('login.sign_in')}
                     </button>
                 </p>
             </div>

@@ -1,98 +1,95 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {type ViewMode} from './types.ts'
-import {useSelector} from "react-redux";
-import type {RootState} from "../app/store.ts";
+import { type ViewMode } from './types.ts';
+import { useAppSelector } from "../app/hooks.ts";
+import { useTranslation } from 'react-i18next';
+import {
+    Popcorn, Ticket, Bell, Sparkles,
+    Calendar, LineChart, Construction, Cloud,
+    ChevronLeft
+} from 'lucide-react';
 
+const iconMap: Record<string, React.ElementType> = {
+    popcorn: Popcorn,
+    ticket: Ticket,
+    bell: Bell,
+    sparkles: Sparkles,
+    calendar: Calendar,
+    chart: LineChart,
+    construction: Construction,
+    cloud: Cloud
+};
 
 const AboutPage = () => {
     const navigate = useNavigate();
-    const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+    const { t } = useTranslation();
+    const { isAuthenticated } = useAppSelector((state) => state.auth);
     const [viewMode, setViewMode] = useState<ViewMode>('viewer');
 
-    const content: Record<ViewMode, {
-        title: string;
-        subtitle: string;
-        features: { title: string; desc: string; icon: string; }[];
-        cta: string;
-        path: string;
-    }> = {
-        viewer: {
-            title: 'For Movie Lovers',
-            subtitle: 'Find the best seats and enjoy your favorite movies.',
-            features: [
-                { title: 'Easy Booking', desc: 'Pick your seat in seconds with our interactive map.', icon: '🍿' },
-                { title: 'Instant Tickets', desc: 'Get your QR-code ticket immediately after payment.', icon: '🎟️' },
-                { title: 'Reminders', desc: 'Never miss a show with our smart notification system.', icon: '🔔' },
-                { title: 'Loyalty Program', desc: 'Collect points and get free popcorn or discounts.', icon: '✨' }
-            ],
-            cta: 'Start Browsing Movies',
-            path: '/movies'
-        },
-        owner: {
-            title: 'For Cinema Owners',
-            subtitle: 'Powerful tools to scale your cinema business.',
-            features: [
-                { title: 'Smart Scheduling', desc: 'Manage movie sessions and hall layouts with ease.', icon: '📅' },
-                { title: 'Real-time Analytics', desc: 'Track ticket sales and revenue in one dashboard.', icon: '📈' },
-                { title: 'Hall Designer', desc: 'Create custom seat layouts for any type of theater.', icon: '🏗️' },
-                { title: 'Cloud Access', desc: 'Manage everything from anywhere, on any device.', icon: '☁️' }
-            ],
-            cta: isAuthenticated ? 'Go to Dashboard' : 'Register as Partner',
-            path: isAuthenticated ? '/dashboard' : '/register'        }
-    };
+    const title = t(`about.${viewMode}.title`);
+    const subtitle = t(`about.${viewMode}.subtitle`);
+    const cta = viewMode === 'owner' && isAuthenticated
+        ? t('about.owner.cta_dashboard')
+        : t(`about.${viewMode}.cta`);
 
-    const active = content[viewMode];
+    const path = viewMode === 'owner' && isAuthenticated ? '/dashboard' : (viewMode === 'viewer' ? '/movies' : '/register');
+
+    const features = t(`about.${viewMode}.features`, { returnObjects: true }) as Array<{title: string, desc: string, iconKey: string}>;
 
     return (
         <div className="max-w-5xl w-full p-10 bg-white/10 backdrop-blur-xl shadow-2xl rounded-[40px] border border-white/20 text-center animate-in fade-in duration-500">
 
-            {/* Переключатель Ролей */}
             <div className="inline-flex p-1.5 mb-10 bg-black/20 rounded-2xl border border-white/10">
                 <button
                     onClick={() => setViewMode('viewer')}
                     className={`px-8 py-2.5 rounded-xl font-bold transition-all ${viewMode === 'viewer' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
                 >
-                    I am a Viewer
+                    {t('about.toggle_viewer')}
                 </button>
                 <button
                     onClick={() => setViewMode('owner')}
                     className={`px-8 py-2.5 rounded-xl font-bold transition-all ${viewMode === 'owner' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
                 >
-                    I am an Owner
+                    {t('about.toggle_owner')}
                 </button>
             </div>
 
             <h2 className="text-5xl font-black text-white mb-4 tracking-tight uppercase italic">
-                {active.title}
+                {title}
             </h2>
             <p className="text-slate-300 text-lg mb-12 max-w-2xl mx-auto font-medium italic">
-                {active.subtitle}
+                {subtitle}
             </p>
 
             {/* Benefits Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left mb-12">
-                {active.features.map((f, i) => (
-                    <div key={i} className="p-6 bg-white/5 rounded-2xl border border-white/10 hover:bg-indigo-500/10 transition-all group">
-                        <div className="text-3xl mb-3 group-hover:scale-110 transition-transform inline-block">{f.icon}</div>
-                        <h4 className="text-white font-bold text-lg mb-1">{f.title}</h4>
-                        <p className="text-slate-400 text-sm leading-relaxed">{f.desc}</p>
-                    </div>
-                ))}
+                {Array.isArray(features) && features.map((f, i) => {
+                    const IconComponent = iconMap[f.iconKey];
+                    return (
+                        <div key={i} className="p-6 bg-white/5 rounded-2xl border border-white/10 hover:bg-indigo-500/10 transition-all group">
+                            <div className="p-3 bg-indigo-500/20 rounded-xl w-fit mb-4 group-hover:scale-110 transition-transform">
+                                {IconComponent && <IconComponent className="text-indigo-400" size={28} />}
+                            </div>
+                            <h4 className="text-white font-bold text-lg mb-1">{f.title}</h4>
+                            <p className="text-slate-400 text-sm leading-relaxed">{f.desc}</p>
+                        </div>
+                    );
+                })}
             </div>
 
             <div className="flex gap-4 justify-center">
                 <button
-                    onClick={() => navigate(active.path)}
-                    className="px-10 py-4 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 shadow-xl transition-all active:scale-95"
+                    onClick={() => navigate(path)}
+                    className="px-10 py-4 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 shadow-xl shadow-indigo-500/20 transition-all active:scale-95"
                 >
-                    {active.cta}
+                    {cta}
                 </button>
                 <button
                     onClick={() => navigate('/')}
-                    className="px-10 py-4 bg-white/10 text-white rounded-2xl font-bold hover:bg-white/20 transition-all border border-white/10 active:scale-95"
+                    className="flex items-center gap-2 px-10 py-4 bg-white/10 text-white rounded-2xl font-bold hover:bg-white/20 transition-all border border-white/10 active:scale-95"
                 >
-                    Go Back
+                    <ChevronLeft size={18} />
+                    {t('common.go_back')}
                 </button>
             </div>
         </div>

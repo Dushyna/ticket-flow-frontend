@@ -6,6 +6,7 @@ import FormContainer from "./FormContainer";
 import ConfirmModal from "./ConfirmModal.tsx";
 import type {FieldConfig} from "./types";
 import {getErrorMessage} from "../utils/utils";
+import { useTranslation } from 'react-i18next';
 
 type DynamicFormProps<T extends FormikValues> = {
     title: string;
@@ -28,10 +29,12 @@ function DynamicForm<T extends FormikValues>({
                                                  validationSchema,
                                                  onSubmit,
                                                  onClose,
-                                                 submitText = "Submit",
+                                                 submitText,
                                                  errorMessage,
                                                  isLoading,
                                              }: DynamicFormProps<T>) {
+    const { t } = useTranslation();
+
     const formik = useFormik<T>({
         initialValues,
         validationSchema,
@@ -43,6 +46,9 @@ function DynamicForm<T extends FormikValues>({
     const [showConfirm, setShowConfirm] = useState(false);
     const [passwordVisibility, setPasswordVisibility] = useState<Record<string, boolean>>({});
     const navigate = useNavigate();
+
+    const finalSubmitText = submitText || t('common.submit');
+    const finalProcessingText = t('common.processing');
 
     const togglePassword = (fieldName: string) => {
         setPasswordVisibility(prev => ({
@@ -58,8 +64,6 @@ function DynamicForm<T extends FormikValues>({
         }
         onClose();
     };
-    console.log("Formik Errors:", formik.errors);
-    console.log("Formik Values:", formik.values);
 
     return (
         <FormContainer
@@ -74,7 +78,7 @@ function DynamicForm<T extends FormikValues>({
                     onClick={() => formik.handleSubmit()}
                     className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                    {isLoading ? "Processing..." : submitText}
+                    {isLoading ? finalProcessingText  : finalSubmitText}
                 </button>
             }
         >
@@ -139,7 +143,7 @@ function DynamicForm<T extends FormikValues>({
                                     onClick={() => navigate('/forgot-password')}
                                     className="text-xs text-indigo-600 hover:text-indigo-800 font-semibold transition-colors"
                                 >
-                                    Forgot password?
+                                    {t('login.forgot_password')}
                                 </button>
                             </div>
                         )}
@@ -149,10 +153,10 @@ function DynamicForm<T extends FormikValues>({
 
             {showConfirm && (
                 <ConfirmModal
-                    title="Discard changes?"
-                    message="You have unsaved changes. Are you sure you want to leave?"
-                    confirmText="Yes, discard"
-                    cancelText="Keep editing"
+                    title={t('common.discard_confirm_title')}
+                    message={t('common.discard_confirm_msg')}
+                    confirmText={t('common.discard_yes')}
+                    cancelText={t('common.discard_no')}
                     onConfirm={() => {
                         setShowConfirm(false);
                         onClose();

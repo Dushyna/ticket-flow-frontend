@@ -2,9 +2,11 @@ import {useNavigate} from 'react-router-dom';
 import {useGetCinemasQuery} from "../features/cinema/services/cinemaApi.ts";
 import CinemaCard from "../components/CinemaCard.tsx";
 import {Ticket} from "lucide-react";
+import { useTranslation } from 'react-i18next';
 
 const DashboardPage = () => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const {data: cinemas, isLoading} = useGetCinemasQuery();
 
     return (
@@ -12,7 +14,7 @@ const DashboardPage = () => {
             className="p-10 bg-black/40 backdrop-blur-xl rounded-[40px] border border-white/20 shadow-2xl max-w-5xl w-full text-white">
             <div className="flex justify-between items-center mb-10">
                 <h1 className="text-4xl font-black uppercase italic tracking-tighter">
-                    My <span className="text-indigo-500">Theaters</span>
+                    {t('dashboard.title_my')} <span className="text-indigo-500">{t('dashboard.title_theaters')}</span>
                 </h1>
                 <div className="flex gap-4">
                     <button
@@ -20,19 +22,19 @@ const DashboardPage = () => {
                         className="flex items-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl font-black uppercase text-[10px] tracking-widest transition-all"
                     >
                         <Ticket size={14} className="text-indigo-400" />
-                        Pricing
+                        {t('dashboard.btn_pricing')}
                     </button>
                     <button
                         onClick={() => navigate('/cinema/create')} 
                         className="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl font-black uppercase text-[10px] tracking-widest transition-all"
                     >
-                        + Add Cinema
+                         {t('dashboard.btn_add_cinema')}
                     </button>
                     <button
                         onClick={() => navigate('/cinema/create-hall')}
                         className="px-8 py-3 bg-indigo-600 hover:bg-indigo-500 rounded-2xl font-black uppercase italic tracking-widest transition-all shadow-lg shadow-indigo-500/20 active:scale-95"
                     >
-                        + Create New Hall
+                         {t('dashboard.btn_create_hall')}
                     </button>
                 </div>
             </div>
@@ -40,7 +42,7 @@ const DashboardPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {isLoading && (
                     <div className="col-span-2 py-20 text-center animate-pulse text-slate-500 font-black uppercase tracking-widest">
-                        Loading your theaters...
+                        {t('common.loading')}
                     </div>
                 )}
 
@@ -54,7 +56,7 @@ const DashboardPage = () => {
                         <div className="col-span-2 p-12 bg-white/5 border border-white/10 border-dashed rounded-3xl text-center">
                             <p className="text-slate-400 italic mb-4">No cinemas found.</p>
                             <p className="text-sm text-indigo-300 uppercase font-black tracking-widest">
-                                Click "+ Add Cinema" to start!
+                                {t('dashboard.empty_hint')}
                             </p>
                         </div>
                     )

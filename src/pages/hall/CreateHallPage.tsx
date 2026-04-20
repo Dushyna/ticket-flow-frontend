@@ -1,5 +1,4 @@
 import { useRef, useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { showNotification } from '../../features/notifications/slice/notificationSlice.ts';
 
@@ -24,10 +23,13 @@ import {
     useGetHallByIdQuery,
     useUpdateHallMutation
 } from '../../features/cinema/services/cinemaApi';
+import {useAppDispatch} from "../../app/hooks.ts";
+import { useTranslation } from 'react-i18next';
 
 const CreateHallPage = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const { hallId } = useParams<{ hallId: string }>();
     const svgRef = useRef<SVGSVGElement>(null);
     const [isInitialized, setIsInitialized] = useState(false);
@@ -95,7 +97,7 @@ const CreateHallPage = () => {
 
     const handleResize = (newRows: number, newCols: number) => {
         if (newRows > 50 || newCols > 50) {
-            dispatch(showNotification({ message: "Max size is 50x50", type: "error" }));
+            dispatch(showNotification({ message: t('hall_editor.error_max_size', { size: 50 }), type: "error" }));
             return;
         }
 
@@ -138,11 +140,11 @@ const CreateHallPage = () => {
 
     const saveHall = async () => {
         if (!hallData.grid.flat().some(cell => cell !== 'aisle')) {
-            dispatch(showNotification({ message: 'Add at least one seat!', type: 'error' }));
+            dispatch(showNotification({ message: t('hall_editor.error_no_seats'), type: 'error' }));
             return;
         }
         if (!hallData.cinemaId) {
-            dispatch(showNotification({ message: 'Select a cinema!', type: 'error' }));
+            dispatch(showNotification({ message: t('hall_editor.error_no_cinema'), type: 'error' }));
             return;
         }
 
@@ -161,18 +163,18 @@ const CreateHallPage = () => {
                 await createHall(payload).unwrap();
             }
 
-            dispatch(showNotification({ message: `Hall saved!`, type: 'success' }));
+            dispatch(showNotification({ message: t('hall_editor.success_save'), type: 'success' }));
             navigate('/dashboard');
         } catch (err) {
             const errorData = err as { data?: { message?: string } };
             dispatch(showNotification({
-                message: errorData.data?.message || 'Error saving',
+                message: errorData.data?.message ||  t('hall_editor.error_save'),
                 type: 'error' }));
         }
     };
 
     return (
-        <div className="w-full max-w-6xl p-10 bg-slate-950 rounded-[40px] border border-white/10 shadow-2xl">
+        <div className="w-full max-w-6xl p-10 bg-black/40 backdrop-blur-xl rounded-[40px] border border-white/10 shadow-2xl">
             <HallHeader
                 hallData={hallData}
                 setHallData={setHallData}
@@ -206,7 +208,7 @@ const CreateHallPage = () => {
                                 : 'bg-white/5 border-white/5 text-slate-700 cursor-not-allowed'
                         }`}
                     >
-                        <Undo2 size={14} /> Undo
+                        <Undo2 size={14} /> {t('hall_editor.btn_undo')}
                     </button>
 
                     {/* FILL ALL */}
@@ -214,7 +216,7 @@ const CreateHallPage = () => {
                         onClick={() => fillAll(activeZone)}
                         className="flex items-center gap-2 px-4 py-2 bg-indigo-600/10 border border-indigo-500/30 rounded-xl text-[10px] font-black text-indigo-400 uppercase hover:bg-indigo-600 hover:text-white transition-all"
                     >
-                        <Paintbrush size={14} /> Fill All
+                        <Paintbrush size={14} /> {t('hall_editor.btn_fill_all')}
                     </button>
 
                     {/* CLEAR ALL */}
@@ -222,7 +224,7 @@ const CreateHallPage = () => {
                         onClick={clearAll}
                         className="flex items-center gap-2 px-4 py-2 bg-red-500/10 border border-red-500/30 rounded-xl text-[10px] font-black text-red-500 uppercase hover:bg-red-500 hover:text-white transition-all"
                     >
-                        <Trash2 size={14} /> Clear All
+                        <Trash2 size={14} /> {t('hall_editor.btn_clear_all')}
                     </button>
                 </div>
 
@@ -234,9 +236,9 @@ const CreateHallPage = () => {
                     }`}
                 >
                     {isZoomedOut ? (
-                        <><ZoomIn size={14} /> Zoom In</>
+                        <><ZoomIn size={14} /> {t('hall_editor.btn_zoom_in')} </>
                     ) : (
-                        <><ZoomOut size={14} /> Zoom Out</>
+                        <><ZoomOut size={14} /> {t('hall_editor.btn_zoom_out')}</>
                     )}
                 </button>            </div>
 
