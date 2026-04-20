@@ -1,6 +1,7 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { showNotification } from '../../features/notifications/slice/notificationSlice';
+import {useAppDispatch} from "../../app/hooks.ts";
+import { useTranslation } from 'react-i18next';
 
 interface ExportButtonProps {
     svgRef: React.RefObject<SVGSVGElement | null>;
@@ -8,7 +9,8 @@ interface ExportButtonProps {
 }
 
 const ExportButton = ({ svgRef, hallName = 'cinema-hall' }: ExportButtonProps) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
+    const { t } = useTranslation();
 
     const handleExport = () => {
         const svg = svgRef.current;
@@ -58,7 +60,7 @@ const ExportButton = ({ svgRef, hallName = 'cinema-hall' }: ExportButtonProps) =
             document.body.removeChild(downloadLink);
 
             URL.revokeObjectURL(url);
-            dispatch(showNotification({ message: 'Exported with proper spacing!', type: 'success' }));
+            dispatch(showNotification({ message: t('hall_editor.success_export'), type: 'success' }));
         };
 
         img.src = url;
@@ -70,7 +72,7 @@ const ExportButton = ({ svgRef, hallName = 'cinema-hall' }: ExportButtonProps) =
             className="h-20 px-6 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-[24px] font-black uppercase text-[10px] tracking-widest transition-all flex flex-col items-center justify-center gap-2 group shadow-lg active:scale-95"
         >
             <span className="text-xl group-hover:scale-125 transition-transform">📸</span>
-            Export PNG
+            {t('hall_editor.btn_export')}
         </button>
     );
 };

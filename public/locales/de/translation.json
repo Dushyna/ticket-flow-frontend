@@ -1,0 +1,362 @@
+{
+  "common": {
+    "loading": "Laden...",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "apply": "Anwenden",
+    "go_back": "Zurück",
+    "processing": "Warten...",
+    "currency": "€",
+    "price": "Preis",
+    "data_not_found": "Daten nicht gefunden",
+    "confirm_title": "Aktion bestätigen",
+    "submit": "Absenden",
+    "discard_confirm_title": "Änderungen verwerfen?",
+    "discard_confirm_msg": "Sie haben ungespeicherte Änderungen. Sind Sie sicher, dass Sie die Seite verlassen wollen?",
+    "discard_yes": "Ja, verwerfen",
+    "discard_no": "Weiter bearbeiten",
+    "success": "Erfolg",
+    "error": "Fehler",
+    "info": "Information",
+    "dismiss": "Schließen"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "movies": "Filme",
+    "halls": "Säle",
+    "schedule": "Spielplan",
+    "about": "Über uns",
+    "logout": "Abmelden"
+  },
+  "login": {
+    "title": "Anmelden",
+    "subtitle": "Willkommen zurück! Bitte geben Sie Ihre Daten ein.",
+    "email_placeholder": "E-Mail-Adresse",
+    "pass_placeholder": "Passwort",
+    "google_btn": "Google-Konto",
+    "or_continue": "Oder weiter mit",
+    "no_account": "Sie haben noch kein Konto?",
+    "register_link": "Jetzt registrieren",
+    "success_msg": "Willkommen zurück!",
+    "error_invalid": "Ungültige E-Mail або Passwort",
+    "forgot_password": "Passwort vergessen?"
+  },
+  "hall_designer": {
+    "title": "Saal-Designer",
+    "subtitle": "Klicken Sie auf Sitze, um den Typ zu ändern",
+    "rows": "Reihen",
+    "cols": "Spalten",
+    "apply_btn": "Größe anwenden",
+    "screen": "Leinwand / Bühne",
+    "legend_standard": "Standard",
+    "legend_vip": "VIP",
+    "legend_aisle": "Gang"
+  },
+  "logged_in_as": "Angemeldet als",
+  "dashboard": {
+    "title_my": "Meine",
+    "title_theaters": "Kinos",
+    "btn_pricing": "Preise",
+    "btn_add_cinema": "+ Kino hinzufügen",
+    "btn_create_hall": "+ Neuen Saal erstellen",
+    "empty_msg": "Keine Kinos gefunden.",
+    "empty_hint": "Klicken Sie на \"+ Kino hinzufügen\", um zu starten!"
+  },
+  "about": {
+    "toggle_viewer": "Ich bin Zuschauer",
+    "toggle_owner": "Ich bin Kinobetreiber",
+    "viewer": {
+      "title": "Für Filmliebhaber",
+      "subtitle": "Finden Sie die besten Plätze und genießen Sie Ihre Lieblingsfilme.",
+      "cta": "Filme durchsuchen",
+      "features": [
+        {
+          "title": "Einfache Buchung",
+          "desc": "Wählen Sie Ihren Sitzplatz in Sekundenschnelle mit unserer interaktiven Karte.",
+          "iconKey": "popcorn"
+        },
+        {
+          "title": "Sofort-Tickets",
+          "desc": "Erhalten Sie Ihr QR-Code-Ticket sofort nach der Zahlung.",
+          "iconKey": "ticket"
+        },
+        {
+          "title": "Erinnerungen",
+          "desc": "Verpassen Sie keine Vorstellung mehr dank unseres smarten Benachrichtigungssystems.",
+          "iconKey": "bell"
+        },
+        {
+          "title": "Treueprogramm",
+          "desc": "Sammeln Sie Punkte und erhalten Sie kostenloses Popcorn oder Rabatte.",
+          "iconKey": "sparkles"
+        }
+      ]
+    },
+    "owner": {
+      "title": "Für Kinobetreiber",
+      "subtitle": "Leistungsstarke Tools zur Skalierung Ihres Kinogeschäfts.",
+      "cta": "Als Partner registrieren",
+      "cta_dashboard": "Zum Dashboard",
+      "features": [
+        {
+          "title": "Smarte Planung",
+          "desc": "Verwalten Sie Filmvorstellungen und Saalpläne mit Leichtigkeit.",
+          "iconKey": "calendar"
+        },
+        {
+          "title": "Echtzeit-Analysen",
+          "desc": "Verfolgen Sie Ticketverkäufe und Umsätze in einem Dashboard.",
+          "iconKey": "chart"
+        },
+        {
+          "title": "Saal-Designer",
+          "desc": "Erstellen Sie individuelle Sitzpläne für jede Art von Kino.",
+          "iconKey": "construction"
+        },
+        {
+          "title": "Cloud-Zugriff",
+          "desc": "Verwalten Sie alles von überall und на jedem Gerät.",
+          "iconKey": "cloud"
+        }
+      ]
+    }
+  },
+  "confirm": {
+    "loading_title": "Verifizierung...",
+    "success_title": "Erfolg!",
+    "success_msg": "Konto erfolgreich bestätigt! Sie können sich jetzt anmelden.",
+    "redirect_msg": "Weiterleitung zum Login...",
+    "error_title": "Fehler",
+    "error_generic": "Bestätigung fehlgeschlagen. Der Link ist möglicherweise abgelaufen.",
+    "back_to_register": "Zurück zur Registrierung"
+  },
+  "cinema_create": {
+    "title_start": "Neues",
+    "title_end": "Kino hinzufügen",
+    "subtitle": "Registrieren Sie einen neuen Standort für Ihre Kinokette",
+    "label_name": "Offizieller Name",
+    "placeholder_name": "z. B. Star Cinema Central",
+    "label_address": "Physische Adresse",
+    "placeholder_address": "Stadt, Straße, Hausnummer",
+    "btn_submit": "Kino registrieren",
+    "success_msg": "Kino \"{{name}}\" erfolgreich registriert!",
+    "error_failed": "Kino konnte nicht erstellt werden. Bitte versuchen Sie es erneut."
+  },
+  "forgot_password": {
+    "title": "Passwort zurücksetzen",
+    "description": "Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen einen Link zum Zurücksetzen Ihres Passworts.",
+    "email_label": "E-Mail-Adresse",
+    "email_placeholder": "ihre@email.de",
+    "submit_btn": "Link zum Zurücksetzen senden",
+    "success_msg": "Ein Link zum Zurücksetzen wurde an Ihre E-Mail gesendet!",
+    "error_generic": "Etwas ist schief gelaufen. Versuchen Sie es später erneut."
+  },
+  "validation": {
+    "email_invalid": "Ungültiges E-Mail-Format",
+    "email_required": "E-Mail ist erforderlich",
+    "must_be_number": "Muss eine Zahl sein",
+    "min_value": "Mindestwert ist {{min}}",
+    "max_value": "Maximalwert ist {{max}}",
+    "required": "Erforderlich"
+  },
+  "landing": {
+    "badge": "Professionelles Kino-Management",
+    "description": "Die ultimative SaaS-Plattform für die einfache Verwaltung von Kinotickets, Spielplänen und Kunden-Support.",
+    "btn_get_started": "Kostenlos starten",
+    "btn_learn_more": "Mehr erfahren"
+  },
+  "register": {
+    "role_customer": "Zuschauer",
+    "role_owner": "Kinobetreiber",
+    "title_customer": "Konto erstellen",
+    "title_owner": "Geschäftsregistrierung",
+    "full_name": "Vollständiger Name",
+    "confirm_password": "Passwort bestätigen",
+    "org_name": "Name der Organisation",
+    "org_contact": "Kontakt-E-Mail der Organisation",
+    "org_slug": "Organisations-URL-Slug",
+    "submit_btn": "Jetzt registrieren",
+    "success_msg": "Registrierung erfolgreich! Bitte prüfen Sie Ihre E-Mails auf den Bestätigungscode.",
+    "error_failed": "Registrierung fehlgeschlagen."
+  },
+  "reset_password": {
+    "title": "Neues Passwort",
+    "description": "Bitte geben Sie Ihr neues Passwort ein und bestätigen Sie es.",
+    "label_new": "Neues Passwort",
+    "btn_submit": "Passwort aktualisieren",
+    "success_msg": "Passwort erfolgreich zurückgesetzt! Sie können sich jetzt anmelden.",
+    "error_no_token": "Ungültiger oder fehlender Token.",
+    "error_failed": "Passwort zurücksetzen fehlgeschlagen. Der Link ist abgelaufen."
+  },
+  "movies": {
+    "title_main": "Film",
+    "title_accent": "Katalog",
+    "add_title": "Neuen Film hinzufügen",
+    "label_title": "Filmtitel",
+    "placeholder_title": "Filmtitel eingeben",
+    "label_duration": "Dauer",
+    "unit_min": "Min.",
+    "btn_add": "Film hinzufügen",
+    "list_title": "Vorhandene Filme",
+    "empty_list": "Noch keine Filme hinzugefügt. Nutzen Sie das Formular, um zu starten.",
+    "modal_delete_title": "Film löschen",
+    "modal_delete_msg": "Sind Sie sicher, dass Sie \"{{title}}\" löschen möchten? Dies kann nicht rückgängig gemacht werden."
+  },
+  "schedule_page": {
+    "title": "Spielplan",
+    "editor": "Editor",
+    "subtitle": "Vorstellungen und Saalverfügbarkeit verwalten",
+    "label_cinema": "Kino-Standort",
+    "label_hall": "Saal",
+    "label_movie": "Film auswählen",
+    "label_start": "Startzeit",
+    "ends_at": "Endet gegen",
+    "label_price": "Basispreis",
+    "select_cinema": "Kino auswählen",
+    "select_hall": "Saal auswählen",
+    "select_movie": "Film auswählen",
+    "loading_halls": "Säle werden geladen...",
+    "btn_cancel_edit": "Bearbeiten abbrechen",
+    "btn_schedule": "Vorstellung planen",
+    "btn_update": "Vorstellung aktualisieren",
+    "status_checking": "Verfügbarkeit prüfen...",
+    "status_past": "Ungültig: Zeit in der Vergangenheit",
+    "error_fill_fields": "Bitte alle Felder ausfüllen",
+    "error_past_time": "Vorstellungen können nicht in der Vergangenheit geplant werden!",
+    "error_generic": "Planung fehlgeschlagen. Bitte Daten prüfen.",
+    "success_create": "Vorstellung geplant!",
+    "success_update": "Vorstellung aktualisiert!"
+  },
+  "timeline": {
+    "title_hall": "Saal",
+    "title_timeline": "Zeitplan",
+    "subtitle": "Bestätigte Vorstellungen für diesen Standort",
+    "status_planned": "Geplant",
+    "empty_msg": "Noch keine Vorstellungen geplant",
+    "price_label": "Preiskategorie",
+    "modal_delete_title": "Vorstellung löschen",
+    "modal_delete_msg": "Sind Sie sicher, dass Sie die Vorstellung für \"{{title}}\" entfernen möchten? Dies kann nicht rückgängig gemacht werden.",
+    "success_delete": "Vorstellung aus dem Zeitplan entfernt",
+    "error_delete": "Löschen fehlgeschlagen. Bitte versuchen Sie es erneut."
+  },
+  "ticket_types": {
+    "title_part1": "Ticket-",
+    "title_part2": "Preise",
+    "subtitle": "Rabatte und Ticketkategorien verwalten",
+    "error_label_required": "Kategoriename ist erforderlich",
+    "success_create": "Ticket-Typ hinzugefügt!",
+    "error_create": "Ticket-Typ konnte nicht hinzugefügt werden",
+    "label_name": "Kategoriename",
+    "placeholder_name": "Name des Tickettyps eingeben",
+    "hint_names": "z. B. Erwachsener, Student, Kind, VIP",
+    "label_multiplier": "Preismultiplikator",
+    "hint_multiplier": "z. B. 1 = normal, 0.8 ↓, 1.2 ↑",
+    "label_default": "Als Standard festlegen",
+    "status_discount": "Rabatt",
+    "status_markup": "Aufschlag",
+    "status_standard": "Standardpreis (Keine Änderung)",
+    "badge_default": "Standard",
+    "multiplier_display": "Multiplikator",
+    "modal_delete_title": "Kategorie löschen",
+    "modal_delete_msg": "Sind Sie sicher? Dies könnte sich auf bestehende Preisberechnungen auswirken.",
+    "success_delete": "Erfolgreich gelöscht",
+    "error_delete": "Löschen fehlgeschlagen"
+  },
+  "booking": {
+    "title": "Sitzplätze wählen",
+    "screen": "Leinwand",
+    "error_taken": "Dieser Sitzplatz ist bereits belegt!",
+    "error_limit": "Sie können maximal {{count}} Sitzplätze pro Buchung auswählen.",
+    "total_price": "Gesamtpreis",
+    "btn_confirm": "Buchung bestätigen",
+    "legend_available": "Verfügbar",
+    "legend_selected": "Ausgewählt",
+    "legend_occupied": "Belegt",
+    "success_booking": "Erfolg! Ihre Plätze wurden reserviert.",
+    "error_failed": "Buchung fehlgeschlagen. Bitte versuchen Sie es später erneut.",
+    "loading_status": "Saal & Vorstellung werden geladen...",
+    "tickets_count": "Tickets",
+    "total_amount": "Gesamtbetrag",
+    "btn_book_now": "Jetzt buchen",
+    "row": "Reihe",
+    "seat": "Platz",
+    "zone": "Zone",
+    "zone_standard": "Standard"
+  },
+  "cinema_select": {
+    "label": "Ziel-Kino",
+    "placeholder": "Standort wählen...",
+    "loading": "Kinos werden geladen...",
+    "error_empty": "Keine Kinos gefunden!"
+  },
+  "hall_editor": {
+    "btn_undo": "Rückgängig",
+    "btn_fill_all": "Alle füllen",
+    "btn_clear_all": "Alles löschen",
+    "success_save": "Saalplan erfolgreich gespeichert!",
+    "error_save": "Fehler beim Speichern des Saalplans",
+    "error_max_size": "Maximale Größe ist {{size}}x{{size}}",
+    "error_no_seats": "Fügen Sie mindestens einen Sitzplatz hinzu!",
+    "error_no_cinema": "Wählen Sie ein Kino aus!",
+    "btn_zoom_in": "Vergrößern",
+    "btn_zoom_out": "Verkleinern",
+    "btn_export": "PNG exportieren",
+    "success_export": "Layout erfolgreich exportiert!",
+    "title_hall": "Saal-",
+    "title_designer": "Designer",
+    "label_name": "Saalname",
+    "placeholder_name": "z. B. IMAX 1",
+    "label_rows": "Reihen",
+    "label_cols": "Spalten",
+    "mode_edit": "Bearbeitungsmodus",
+    "mode_new": "neues Layout",
+    "btn_save": "Saal speichern",
+    "screen_area": "Leinwand / Bühnenbereich",
+    "stats_capacity": "Kapazität",
+    "zones_title": "Zonen verwalten",
+    "btn_add_category": "+ Neue Zone hinzufügen",
+    "placeholder_zone_name": "Zonenname",
+    "zone_aisle": "Radiergummi / Gang"
+  },
+  "hall_legend": {
+    "zones_title": "Zonenkategorien",
+    "zone_hint_start": "Wählen Sie oben eine Zone unter",
+    "zone_hint_highlight": "Zonen verwalten",
+    "zone_hint_end": "aus, um sie als Pinsel zu verwenden.",
+    "controls_title": "Designer-Steuerung",
+    "click_title": "Einfacher Klick",
+    "click_desc": "Ausgewählte Zone auf einen Sitz anwenden. Erneut klicken zum Löschen.",
+    "numbers_title": "Reihen- / Spaltennummern",
+    "numbers_desc": "Klicken, um die gesamte Linie mit der aktiven Zone zu füllen.",
+    "eraser_name": "Radiergummi",
+    "eraser_hint_start": "Nutzen Sie das",
+    "eraser_hint_end": "-Tool, um schnell Gänge und Durchgänge zu erstellen."
+  },
+  "zones": {
+    "parterre": "Parkett",
+    "amphitheater": "Amphitheater",
+    "balcony": "Balkon",
+    "lodge": "VIP-Loge"
+  },
+  "cinema_card": {
+    "no_address": "Keine Adresse",
+    "btn_edit_cinema": "Kino bearbeiten",
+    "upcoming_schedule": "Kommende Vorstellungen",
+    "loading_sessions": "Sitzungen werden geladen...",
+    "no_sessions": "Keine aktiven Vorstellungen gefunden",
+    "halls_layout": "Saal-Layouts",
+    "edit_layout_hint": "Layout bearbeiten",
+    "no_halls": "Noch keine Säle erstellt"
+  },
+  "footer": {
+    "rights": "Alle Rechte vorbehalten."
+  }
+
+
+
+
+
+
+
+}

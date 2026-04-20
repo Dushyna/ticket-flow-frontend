@@ -18,7 +18,7 @@ const FormContainer = ({
                            errorMessage,
                        }: FormContainerProps) => {
     return (
-        <div className="relative mx-auto max-w-md w-full p-8 rounded-2xl bg-white/10 backdrop-blur-xl shadow-2xl rounded-[40px] border border-white/20 text-center animate-in fade-in duration-500">
+        <div className="relative mx-auto max-w-md w-full p-8 rounded-2xl bg-white/10 backdrop-blur-xl shadow-2xl  border border-white/20 text-center animate-in fade-in duration-500">
 
             {/* Close button */}
             <button

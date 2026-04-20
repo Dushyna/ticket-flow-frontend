@@ -1,4 +1,5 @@
 import {type ZoneConfig} from './types';
+import { useTranslation } from 'react-i18next';
 
 const ZonePicker = ({
                         activeZone,
@@ -15,16 +16,17 @@ const ZonePicker = ({
     onAddZone: () => void;
     onDeleteZone: (id: string) => void;
 }) => {
+    const { t } = useTranslation();
 
     return (
         <div className="flex flex-col gap-4 mb-10">
             <div className="flex justify-between items-center px-2">
-                <h2 className="text-xs font-black text-white uppercase tracking-[0.2em]">Manage Zones</h2>
+                <h2 className="text-xs font-black text-white uppercase tracking-[0.2em]">{t('hall_editor.zones_title')}</h2>
                 <button
                     onClick={onAddZone}
                     className="px-4 py-2 bg-blue-600/20 hover:bg-blue-600 border border-blue-500/30 text-blue-400 hover:text-white rounded-xl text-[10px] font-black uppercase transition-all shadow-lg hover:shadow-blue-500/20"
                 >
-                    + Add New Zone
+                    {t('hall_editor.btn_add_category')}
                 </button>
             </div>
 
@@ -60,18 +62,18 @@ const ZonePicker = ({
                                 />
                                 <input
                                     type="text"
-                                    value={zone.label}
+                                    value={t(`zones.${zone.id}`) !== `zones.${zone.id}` ? t(`zones.${zone.id}`) : zone.label}
                                     onClick={(e) => e.stopPropagation()}
                                     onChange={(e) => onUpdateZone(zone.id, e.target.value, zone.multiplier || 1.0)}
                                     className={`bg-transparent border-none outline-none text-[10px] font-black uppercase w-full transition-colors ${
                                         activeZone === zone.id ? 'text-white' : 'text-slate-400 focus:text-white'
                                     }`}
-                                    placeholder="Zone Name"
+                                    placeholder={t('hall_editor.placeholder_zone_name')}
                                 />
                             </div>
                             <div
                                 className="flex items-center gap-2 px-2 py-1 bg-black/40 rounded-lg border border-white/5 w-fit">
-                                <span className="text-[8px] font-bold text-slate-500 uppercase">Price x</span>
+                                <span className="text-[8px] font-bold text-slate-500 uppercase">{t('ticket_types.label_multiplier')} x</span>
                                 <input
                                     type="number"
                                     step="0.1"
@@ -96,7 +98,7 @@ const ZonePicker = ({
                     }`}
                 >
                     <span className="text-lg">🧽</span>
-                    <span className="text-[10px] font-black uppercase">Eraser</span>
+                    <span className="text-[10px] font-black uppercase">{t('hall_editor.zone_aisle')}</span>
                 </button>
             </div>
         </div>

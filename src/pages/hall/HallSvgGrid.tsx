@@ -71,8 +71,14 @@ export const HallSvgGrid = ({
                                 {row.map((zoneId, cIdx) => {
                                     const zoneConfig = configs.find(z => z.id === zoneId);
                                     const isAisle = zoneId === 'aisle';
-                                    const isOccupied = occupiedSeats?.some((s: {row: number, col: number}) => s.row === rIdx && s.col === cIdx);
-                                    const isSelected = selectedSeats?.some((s: {r: number, c: number}) => s.r === rIdx && s.c === cIdx);
+                                    const isOccupied = occupiedSeats?.some((s: {
+                                        row: number,
+                                        col: number
+                                    }) => s.row === rIdx && s.col === cIdx);
+                                    const isSelected = selectedSeats?.some((s: {
+                                        r: number,
+                                        c: number
+                                    }) => s.r === rIdx && s.c === cIdx);
                                     return (
                                         <g
                                             key={`${rIdx}-${cIdx}`}

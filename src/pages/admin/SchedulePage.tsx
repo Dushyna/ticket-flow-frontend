@@ -5,16 +5,18 @@ import {
     useUpsertShowtimeMutation
 } from '../../features/cinema/services/movieApi';
 import {useGetCinemasQuery, useGetHallsByCinemaQuery} from '../../features/cinema/services/cinemaApi';
-import {useDispatch} from 'react-redux';
 import {showNotification} from '../../features/notifications/slice/notificationSlice';
 import type {FetchBaseQueryError} from "@reduxjs/toolkit/query";
 import ShowtimeTimeline from "./ShowtimeTimeline.tsx";
 import type {Showtime} from "../../features/cinema/utils/utils.ts";
 import {useNavigate} from 'react-router-dom';
+import {useAppDispatch} from "../../app/hooks.ts";
+import { useTranslation } from 'react-i18next';
 
 const SchedulePage = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const {data: movies} = useGetMoviesQuery();
     const {data: cinemas} = useGetCinemasQuery();
 
@@ -47,12 +49,12 @@ const SchedulePage = () => {
 
     const handleCreate = async () => {
         if (!selectedMovie || !selectedHall || !startTime) {
-            dispatch(showNotification({message: "Please fill all fields", type: "error"}));
+            dispatch(showNotification({message: t('schedule_page.error_fill_fields'), type: "error"}));
             return;
         }
 
         if (isPastTime) {
-            dispatch(showNotification({message: "Cannot schedule a showtime in the past!", type: "error"}));
+            dispatch(showNotification({message: t('schedule_page.error_past_time'), type: "error"}));
             return;
         }
 
@@ -66,7 +68,7 @@ const SchedulePage = () => {
             }).unwrap();
 
             dispatch(showNotification({
-                message: editingId ? "Showtime updated!" : "Showtime scheduled!",
+                message: editingId ? t('schedule_page.success_update') : t('schedule_page.success_create'),
                 type: "success"
             }));
             setEditingId(null);
@@ -76,35 +78,20 @@ const SchedulePage = () => {
             const fetchError = err as FetchBaseQueryError;
 
             const errorData = fetchError.data as { message?: string };
-            const errorMessage = errorData?.message || "";
+            let errorMessage = errorData?.message || "";
 
-            if (errorMessage.includes("Conflict")) {
-                dispatch(showNotification({
-                    message: "Conflict: This hall is already booked for the selected time slot!",
-                    type: "error"
-                }));
-            } else if (fetchError.status === 403) {
-                dispatch(showNotification({
-                    message: "Access Denied: You don't have permission to manage this hall.",
-                    type: "error"
-                }));
-            } else if (fetchError.status === 401) {
-                dispatch(showNotification({
-                    message: "Session expired. Please log in again.",
-                    type: "error"
-                }));
-                setTimeout(() => {
-                    navigate('/login');
-                }, 2000);
-                return;
-            } else {
-                dispatch(showNotification({
-                    message: "Scheduling failed. Please check the data and try again.",
-                    type: "error"
-                }));
+            if (!errorMessage) {
+                if (fetchError.status === 401) {
+                    errorMessage = t('common.errors.session_expired');
+                    setTimeout(() => navigate('/login'), 2000);
+                } else if (fetchError.status === 403) {
+                    errorMessage = t('common.errors.access_denied');
+                } else {
+                    errorMessage = t('schedule_page.error_generic');
+                }
             }
 
-            console.error("Showtime creation error:", fetchError);
+            dispatch(showNotification({ message: errorMessage, type: "error" }));
         }
     };
 
@@ -125,10 +112,10 @@ const SchedulePage = () => {
                     </div>
                     <div>
                         <h1 className="text-4xl font-black uppercase italic tracking-tighter text-white leading-none">
-                            Schedule <span className="text-indigo-500">Editor</span>
+                            {t('schedule_page.title')} <span className="text-indigo-500">{t('schedule_page.editor')}</span>
                         </h1>
                         <p className="text-slate-500 font-bold uppercase text-[10px] tracking-[0.3em] mt-2">
-                            Manage showtimes and hall availability
+                            {t('schedule_page.subtitle')}
                         </p>
                     </div>
                 </div>
@@ -141,7 +128,7 @@ const SchedulePage = () => {
                             <div className="flex flex-col gap-2">
                                 <label
                                     className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-2 flex items-center gap-2">
-                                    <LayoutDashboard size={12}/> Cinema Location
+                                    <LayoutDashboard size={12}/>  {t('schedule_page.label_cinema')}
                                 </label>
                                 <select
                                     value={selectedCinema}
@@ -151,21 +138,21 @@ const SchedulePage = () => {
                                     }}
                                     className="w-full bg-black/40 border border-white/10 p-4 rounded-2xl text-sm font-bold outline-none focus:border-indigo-500 transition-all cursor-pointer appearance-none"
                                 >
-                                    <option value="">Select Cinema</option>
+                                    <option value="">{t('schedule_page.select_cinema')}</option>
                                     {cinemas?.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                                 </select>
                             </div>
 
                             <div className="flex flex-col gap-2 text-white">
                                 <label
-                                    className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-2">Hall</label>
+                                    className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-2">{t('schedule_page.label_hall')}</label>
                                 <select
                                     value={selectedHall}
                                     onChange={(e) => setSelectedHall(e.target.value)}
                                     disabled={!selectedCinema || isHallsLoading}
                                     className="w-full bg-black/40 border border-white/10 p-4 rounded-2xl text-sm font-bold outline-none focus:border-indigo-500 transition-all disabled:opacity-20 appearance-none"
                                 >
-                                    <option value="">{isHallsLoading ? 'Loading halls...' : 'Select Hall'}</option>
+                                    <option value="">{isHallsLoading ? t('schedule_page.loading_halls') : t('schedule_page.select_hall')}</option>
                                     {halls?.map(h => <option key={h.id} value={h.id}>{h.name}</option>)}
                                 </select>
                             </div>
@@ -176,14 +163,14 @@ const SchedulePage = () => {
                             <div className="flex flex-col gap-2">
                                 <label
                                     className="text-[10px] font-black uppercase tracking-widest  ml-2 flex items-center gap-2 text-white">
-                                    <Film size={12}/> Movie to Screen
+                                    <Film size={12}/> {t('schedule_page.label_movie')}
                                 </label>
                                 <select
                                     value={selectedMovie}
                                     onChange={(e) => setSelectedMovie(e.target.value)}
                                     className="w-full bg-black/40 border border-white/10 p-4 rounded-2xl text-sm font-bold outline-none focus:border-indigo-500 transition-all appearance-none"
                                 >
-                                    <option value="">Select Movie</option>
+                                    <option value="">{t('schedule_page.select_movie')}</option>
                                     {movies?.map(m => <option key={m.id} value={m.id}>{m.title}</option>)}
                                 </select>
                             </div>
@@ -192,7 +179,7 @@ const SchedulePage = () => {
                                 <div className="flex flex-col gap-2">
                                     <label
                                         className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-2 flex items-center gap-2">
-                                        <Clock size={12}/> Start Time
+                                        <Clock size={12}/> {t('schedule_page.label_start')}
                                     </label>
                                     <input
                                         type="datetime-local"
@@ -202,7 +189,7 @@ const SchedulePage = () => {
                                     />
                                     {startTime && selectedMovieData && (
                                         <p className="text-[10px] text-indigo-400 font-bold mt-1 ml-2 italic">
-                                            Ends ~{getEndTimeString(startTime, selectedMovieData.durationMinutes)}
+                                            {t('schedule_page.ends_at')} ~{getEndTimeString(startTime, selectedMovieData.durationMinutes)}
                                         </p>
                                     )}
                                 </div>
@@ -210,7 +197,7 @@ const SchedulePage = () => {
                                 <div className="flex flex-col gap-2 text-white">
                                     <label
                                         className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-2 flex items-center gap-2">
-                                        <CircleDollarSign size={12}/> Base Price
+                                        <CircleDollarSign size={12}/> {t('schedule_page.label_price')}
                                     </label>
                                     <input
                                         type="number"
@@ -233,7 +220,7 @@ const SchedulePage = () => {
                                 }}
                                 className="flex-1 py-5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-3xl font-black uppercase italic transition-all"
                             >
-                                Cancel Edit
+                                {t('schedule_page.btn_cancel_edit')}
                             </button>
                         )}
                         <button
@@ -249,21 +236,20 @@ const SchedulePage = () => {
                                 <>
                                     <div
                                         className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin"/>
-                                    <span>Checking Availability...</span>
+                                    <span>{t('schedule_page.status_checking')}</span>
                                 </>
                             ) : isPastTime ? (
                                 <>
                                     <Clock size={20} className="text-red-500"/>
-                                    <span className="text-red-500">Invalid: Time in Past</span>
+                                    <span className="text-red-500">{t('schedule_page.status_past')}</span>
                                 </>
                             ) : (
                                 <>
                                     <PlusCircle size={20} strokeWidth={3}
                                                 className="group-hover:rotate-90 transition-transform duration-300"/>
-                                    <span>Schedule Showtime</span>
+                                    <span>{editingId ? t('schedule_page.btn_update') : t('schedule_page.btn_schedule')}</span>
                                 </>
                             )}
-                            {editingId ? 'Update Showtime' : 'Schedule Showtime'}
                         </button>
                     </div>
                 </div>

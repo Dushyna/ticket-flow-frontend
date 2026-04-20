@@ -1,54 +1,62 @@
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { useForgotPasswordMutation } from '../features/auth/services/authApi';
 import { showNotification } from '../features/notifications/slice/notificationSlice';
 import DynamicForm from '../components/DynamicForm';
 import { type FieldConfig } from '../components/types';
 import * as Yup from 'yup';
 import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { useAppDispatch } from "../app/hooks.ts";
+import { useTranslation } from 'react-i18next';
 
 const ForgotPasswordPage = () => {
     const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const fields: FieldConfig[] = [
-        { name: 'email', label: 'Email Address', type: 'email', placeholder: 'your@email.com' }
+        {
+            name: 'email',
+            label: t('forgot_password.email_label'),
+            type: 'email',
+            placeholder: t('forgot_password.email_placeholder')
+        }
     ];
 
     const forgotSchema = Yup.object().shape({
-        email: Yup.string().email('Invalid email format').required('Email is required'),
+        email: Yup.string()
+            .email(t('validation.email_invalid'))
+            .required(t('validation.email_required')),
     });
 
     const handleSubmit = async (values: { email: string }) => {
         try {
             await forgotPassword(values).unwrap();
             dispatch(showNotification({
-                message: 'Reset link has been sent to your email!',
+                message: t('forgot_password.success_msg'),
                 type: 'success'
             }));
             navigate('/login');
         } catch (err) {
             const fetchError = err as FetchBaseQueryError;
-
             const errorMessage = (fetchError.data as { message?: string })?.message
-                || 'Something went wrong. Try again later.';
+                || t('forgot_password.error_generic');
             dispatch(showNotification({ message: errorMessage, type: 'error' }));
         }
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-50 py-12 px-4">
+        <div className="min-h-screen flex items-center justify-center py-12 px-4">
             <div className="w-full max-w-md">
                 <DynamicForm
-                    title="Reset Password"
-                    description="Enter your email and we'll send you a link to reset your password."
+                    title={t('forgot_password.title')}
+                    description={t('forgot_password.description')}
                     fields={fields}
                     initialValues={{ email: '' }}
                     validationSchema={forgotSchema as Yup.AnyObjectSchema}
                     onSubmit={handleSubmit}
                     onClose={() => navigate('/login')}
-                    submitText="Send Reset Link"
+                    submitText={t('forgot_password.submit_btn')}
                     isLoading={isLoading}
                 />
             </div>

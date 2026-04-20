@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import CinemaSelect from "./CinemaSelect.tsx";
 import ExportButton from "./ExportButton.tsx";
 import type {SizeInputProps, ZoneConfig, ZoneType} from "./types.ts";
+import { useTranslation } from 'react-i18next';
 
 interface HallData {
     name: string;
@@ -33,22 +34,23 @@ export const HallHeader = ({
                            }: HallHeaderProps) => {
     const [localRows, setLocalRows] = useState(hallData.rows);
     const [localCols, setLocalCols] = useState(hallData.cols);
+    const { t } = useTranslation();
 
     return (
         <div className="flex justify-between items-center mb-10">
             <h1 className="text-4xl font-black text-white uppercase italic tracking-tighter">
-                Hall <span className="text-indigo-500">Designer</span>
+                {t('hall_editor.title_hall')} <span className="text-indigo-500">{t('hall_editor.title_designer')}</span>
             </h1>
 
             <div className="flex items-center gap-4">
                 <div className="flex items-center gap-6 h-20 bg-white/5 px-6 rounded-[24px] border border-white/10 shadow-inner">
                     <div className="flex flex-col gap-1.5">
-                        <label className="text-[9px] font-black uppercase tracking-[0.2em] text-indigo-400 ml-2">Hall Name</label>
+                        <label className="text-[9px] font-black uppercase tracking-[0.2em] text-indigo-400 ml-2">{t('hall_editor.label_name')}</label>
                         <input
                             value={hallData.name}
                             onChange={(e) => setHallData(prev => ({...prev, name: e.target.value}))}
                             className="h-10 bg-black/40 border border-white/10 rounded-xl px-4 text-xs font-bold text-white outline-none focus:border-indigo-500 w-40"
-                            placeholder="e.g. IMAX 1"
+                            placeholder={t('hall_editor.placeholder_name')}
                         />
                     </div>
 
@@ -59,13 +61,13 @@ export const HallHeader = ({
                 </div>
 
                 <div className="flex items-center gap-4 h-20 bg-white/5 px-6 rounded-[24px] border border-white/10">
-                    <SizeInput label="Rows" val={localRows} onChange={setLocalRows}/>
-                    <SizeInput label="Cols" val={localCols} onChange={setLocalCols}/>
+                    <SizeInput label={t('hall_editor.label_rows')} val={localRows} onChange={setLocalRows}/>
+                    <SizeInput label={t('hall_editor.label_cols')} val={localCols} onChange={setLocalCols}/>
                     <button
                         onClick={() => onResize(localRows, localCols)}
                         className="h-10 px-4 bg-indigo-600 text-white rounded-xl text-[10px] font-bold uppercase mt-4"
                     >
-                        Apply
+                        {t('common.apply')}
                     </button>
                 </div>
 
@@ -82,9 +84,9 @@ export const HallHeader = ({
                     >
                         <div className="flex flex-col items-center">
                             <span className="text-[10px] opacity-50 lowercase font-bold tracking-normal mb-1">
-                                {hallId ? 'edit mode' : 'new layout'}
+                                {hallId ? t('hall_editor.mode_edit') : t('hall_editor.mode_new')}
                             </span>
-                            {isProcessing ? 'Processing...' : 'Save Hall'}
+                            {isProcessing ? t('common.processing') : t('hall_editor.btn_save')}
                         </div>
                     </button>
                 </div>

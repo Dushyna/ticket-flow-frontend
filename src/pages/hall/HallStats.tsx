@@ -1,4 +1,5 @@
 import type {ZoneConfig, ZoneType} from "./types.ts";
+import { useTranslation } from 'react-i18next';
 
 interface HallStatsProps {
     grid: ZoneType[][];
@@ -8,12 +9,13 @@ interface HallStatsProps {
 export const HallStats = ({ grid, configs }: HallStatsProps) => {
     const flatGrid = grid.flat();
     const capacity = flatGrid.filter(cell => cell !== 'aisle').length;
+    const { t } = useTranslation();
 
     return (
         <div className="flex flex-wrap gap-6 mb-8 px-6 py-4 bg-white/5 rounded-3xl border border-white/5 items-center">
             <div className="flex items-center gap-2 pr-6 border-r border-white/10">
                 <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                    Capacity:
+                    {t('hall_editor.stats_capacity')}:
                 </span>
                 <span className="text-xl font-black text-white">
                     {capacity}
@@ -27,10 +29,9 @@ export const HallStats = ({ grid, configs }: HallStatsProps) => {
 
                     return (
                         <div key={zone.id} className="flex items-center gap-2">
-                            {/* Перетворюємо tailwind fill- колір у bg- колір для кружечка */}
                             <div className={`w-2 h-2 rounded-full ${zone.color.replace('fill-', 'bg-')}`} />
                             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">
-                                {zone.label}: <span className="text-white">{count}</span>
+                                {t(`zones.${zone.id}`) !== `zones.${zone.id}` ? t(`zones.${zone.id}`) : zone.label}: <span className="text-white">{count}</span>
                             </span>
                         </div>
                     );
