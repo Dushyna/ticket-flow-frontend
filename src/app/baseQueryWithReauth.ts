@@ -1,8 +1,22 @@
 import { fetchBaseQuery, type BaseQueryFn, type FetchArgs, type FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 
+const getCookie = (name: string) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(';').shift();
+    return undefined;
+};
+
 const baseQuery = fetchBaseQuery({
     baseUrl: 'http://localhost:8080/api/v1',
     credentials: 'include',
+    prepareHeaders: (headers) => {
+        const csrfToken = getCookie('XSRF-TOKEN');
+        if (csrfToken) {
+            headers.set('X-XSRF-TOKEN', csrfToken);
+        }
+        return headers;
+    },
 });
 
 export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
