@@ -19,7 +19,8 @@
     "success": "Success",
     "error": "Error",
     "info": "Information",
-    "dismiss": "Dismiss"
+    "dismiss": "Dismiss",
+    "try_again": "Try Again"
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -27,7 +28,10 @@
     "halls": "Halls",
     "schedule": "Schedule",
     "about": "About",
-    "logout": "Logout"
+    "logout": "Logout",
+    "users": "Staff",
+    "box_office": "Box Office",
+    "controller_gate": "Gate Control"
   },
   "login": {
     "title": "Sign In",
@@ -98,6 +102,7 @@
       "subtitle": "Powerful tools to scale your cinema business.",
       "cta": "Register as Partner",
       "cta_dashboard": "Go to Dashboard",
+      "btn_manage_staff": "Manage Staff",
       "features": [
         {
           "title": "Smart Scheduling",
@@ -273,7 +278,7 @@
     "legend_available": "Available",
     "legend_selected": "Selected",
     "legend_occupied": "Occupied",
-    "success_booking": "Success! Your seats have been reserved.",
+    "booking.success_booking": "Success! Your seats are reserved. You have 10 minutes to complete the payment, otherwise the reservation will be automatically cancelled.",
     "error_failed": "Booking failed. Please try again later.",
     "loading_status": "Loading Hall & Showtime...",
     "tickets_count": "Tickets",
@@ -351,13 +356,65 @@
   },
   "footer": {
     "rights": "All rights reserved."
+  },
+  "payment": {
+    "success_title": "Success!",
+    "success_message": "Your tickets have been sent to your email. See you at the cinema!",
+    "cancel_title": "Payment Cancelled",
+    "cancel_message": "Don't worry, your seats are still held for a short time. You can try again from your dashboard.",
+    "pay_now": "Pay Now",
+    "verifying": "Verifying payment status..."
+  },
+  "profile": {
+    "my_tickets": "My Tickets",
+    "no_tickets": "You don't have any tickets yet."
+  },
+  "gate": {
+    "cabinet_title": "Gate Entry Control",
+    "cabinet_subtitle": "Scan Ticket QR Code / Input UUID",
+    "input_placeholder": "Paste or scan Ticket UUID...",
+    "submit_btn": "Verify Ticket Access",
+    "data_header": "Session Data",
+    "ACCESS_GRANTED": "Access Granted! Welcome to the cinema.",
+    "ALREADY_SCANNED": "CRITICAL: This ticket has already been scanned!",
+    "TICKET_NOT_PAID": "Access Denied: Ticket is not paid.",
+    "TICKET_NOT_FOUND": "Error: Invalid or fake ticket.",
+    "TOO_EARLY_FOR_SHOWTIME": "Too early. The hall is not open for this showtime yet.",
+    "SHOWTIME_ALREADY_PASSED": "Ticket expired. This showtime has already passed."
+  },
+  "admin": {
+    "title": "Staff Management",
+    "loading": "Loading Staff Directory...",
+    "search_placeholder": "Search staff by email...",
+    "th_email": "User Email",
+    "th_id": "User ID",
+    "th_status": "Current Status",
+    "th_action": "Assign Authority",
+    "role_option_user": "User (Customer)",
+    "role_option_cashier": "Cashier (Staff)",
+    "role_option_tenant": "Tenant Admin (Manager)",
+    "no_results": "No managed or eligible staff users found matching your query",
+    "role_updated_success": "User role successfully updated!",
+    "role_updated_error": "Error: You do not have permission to modify roles or network timeout occurred."
+  },
+  "cashier": {
+    "workspace_title": "Box Office Workspace",
+    "loading_cinemas": "Loading Cinemas...",
+    "loading_hall_map": "Loading Hall Map Inventory...",
+    "lbl_select_cinema": "Select Cinema",
+    "lbl_select_showtime": "Select Showtime",
+    "lbl_pricing_strategy": "Pricing Strategy",
+    "opt_choose_cinema": "-- Choose Cinema --",
+    "opt_choose_showtime": "-- Choose Showtime --",
+    "opt_loading_sessions": "Loading Sessions...",
+    "opt_select_type": "-- Select Type --",
+    "screen_area": "Screen Area",
+    "cart_selected_seats": "Selected Seats",
+    "cart_total": "Total",
+    "fallback_hint": "Please select a cinema and a showtime to view available inventory.",
+    "btn_print_tickets": "Print Cash Tickets ({{count}})",
+    "sale_success": "Success! Physical ticket printed.",
+    "sale_error": "Error: One of the selected seats was just locked or purchased by an online user."
   }
-
-
-
-
-
-
-
 }
 

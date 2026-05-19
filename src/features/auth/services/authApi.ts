@@ -1,4 +1,4 @@
-import { type UserResponseDto, type LoginRequest } from '../types/types';
+import {type UserResponseDto, type LoginRequest, type UpdateUserRoleRequest} from '../types/types';
 import { createApi} from '@reduxjs/toolkit/query/react';
 import {baseQueryWithReauth} from "../../../app/baseQueryWithReauth.ts";
 
@@ -6,7 +6,9 @@ import {baseQueryWithReauth} from "../../../app/baseQueryWithReauth.ts";
 export const authApi = createApi({
     reducerPath: 'authApi',
     baseQuery: baseQueryWithReauth,
-    endpoints: (builder) => ({        login: builder.mutation<UserResponseDto, LoginRequest>({
+    tagTypes: ['Users'],
+    endpoints: (builder) => ({
+        login: builder.mutation<UserResponseDto, LoginRequest>({
             query: (credentials) => ({
                 url: '/auth/login',
                 method: 'POST',
@@ -55,6 +57,21 @@ export const authApi = createApi({
             }),
         }),
 
+        getAllUsers: builder.query<UserResponseDto[], void>({
+            query: () => '/users/all',
+            providesTags: ['Users'],
+        }),
+
+        // PATCH: /api/v1/users/role -> Assigns role execution (e.g., ROLE_CASHIER)
+        updateUserRole: builder.mutation<UserResponseDto, UpdateUserRoleRequest>({
+            query: (body) => ({
+                url: '/users/role',
+                method: 'PATCH',
+                body,
+            }),
+            // Automatically triggers global re-fetch execution for getAllUsers
+            invalidatesTags: ['Users'],
+        }),
 
     }),
 });
@@ -66,5 +83,7 @@ export const {
     useRegisterTenantMutation,
     useForgotPasswordMutation,
     useGetCurrentUserQuery,
-    useResetPasswordMutation
+    useResetPasswordMutation,
+    useGetAllUsersQuery,
+    useUpdateUserRoleMutation
 } = authApi;

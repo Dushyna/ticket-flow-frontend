@@ -1,4 +1,5 @@
 import { fetchBaseQuery, type BaseQueryFn, type FetchArgs, type FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
+import {logOut} from "../features/auth/slice/authSlice.ts";
 
 const getCookie = (name: string) => {
     const value = `; ${document.cookie}`;
@@ -29,12 +30,17 @@ export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, Fetch
     if (result.error && result.error.status === 401) {
         console.log('Access token expired, trying to refresh...');
 
-        const refreshResult = await baseQuery({ url: '/auth/refresh-token', method: 'POST' }, api, extraOptions);
+        const refreshResult = await baseQuery(
+            { url: '/auth/refresh-token', method: 'POST', responseHandler: 'text' },
+            api,
+            extraOptions
+        );
 
         if (refreshResult.data) {
-            console.log('Token refreshed! Retrying original request...');
+            console.log('Token refresh successful! Retrying original request...');
             result = await baseQuery(args, api, extraOptions);
         } else {
+            api.dispatch(logOut());
             console.warn('Refresh failed. Please login again.');
         }
     }

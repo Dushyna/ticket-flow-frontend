@@ -19,7 +19,8 @@
     "success": "Erfolg",
     "error": "Fehler",
     "info": "Information",
-    "dismiss": "Schließen"
+    "dismiss": "Schließen",
+    "try_again": "Erneut versuchen"
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -27,7 +28,10 @@
     "halls": "Säle",
     "schedule": "Spielplan",
     "about": "Über uns",
-    "logout": "Abmelden"
+    "logout": "Abmelden",
+    "users": "Personal",
+    "box_office": "Kasse",
+    "controller_gate": "Einlasskontrolle"
   },
   "login": {
     "title": "Anmelden",
@@ -98,6 +102,7 @@
       "subtitle": "Leistungsstarke Tools zur Skalierung Ihres Kinogeschäfts.",
       "cta": "Als Partner registrieren",
       "cta_dashboard": "Zum Dashboard",
+      "btn_manage_staff": "Personal verwalten",
       "features": [
         {
           "title": "Smarte Planung",
@@ -273,7 +278,7 @@
     "legend_available": "Verfügbar",
     "legend_selected": "Ausgewählt",
     "legend_occupied": "Belegt",
-    "success_booking": "Erfolg! Ihre Plätze wurden reserviert.",
+    "booking.success_booking": "Erfolg! Ihre Plätze sind reserviert. Sie haben 10 Minuten Zeit, um die Zahlung abzuschließen, andernfalls wird die Reservierung automatisch storniert.",
     "error_failed": "Buchung fehlgeschlagen. Bitte versuchen Sie es später erneut.",
     "loading_status": "Saal & Vorstellung werden geladen...",
     "tickets_count": "Tickets",
@@ -351,12 +356,64 @@
   },
   "footer": {
     "rights": "Alle Rechte vorbehalten."
+  },
+  "payment": {
+    "success_title": "Erfolg!",
+    "success_message": "Ihre Tickets wurden an Ihre E-Mail gesendet. Wir sehen uns im Kino!",
+    "cancel_title": "Zahlung abgebrochen",
+    "cancel_message": "Keine Sorge, Ihre Plätze sind noch für kurze Zeit reserviert. Sie können es über Ihr Dashboard erneut versuchen.",
+    "pay_now": "Jetzt bezahlen",
+    "verifying": "Zahlungsstatus wird geprüft..."
+  },
+  "profile": {
+    "my_tickets": "Meine Tickets",
+    "no_tickets": "Sie haben noch keine Tickets."
+  },
+  "gate": {
+    "cabinet_title": "Einlasskontrolle",
+    "cabinet_subtitle": "QR-Code scannen / UUID eingeben",
+    "input_placeholder": "Ticket-UUID einfügen oder scannen...",
+    "submit_btn": "Ticket Überprüfen",
+    "data_header": "Sitzungsdaten",
+    "ACCESS_GRANTED": "Zutritt gewährt! Willkommen im Kino.",
+    "ALREADY_SCANNED": "KRITISCH: Dieses Ticket wurde bereits gescannt!",
+    "TICKET_NOT_PAID": "Zutritt verweigert: Ticket ist nicht bezahlt.",
+    "TICKET_NOT_FOUND": "Fehler: Ungültiges oder gefälschtes Ticket.",
+    "TOO_EARLY_FOR_SHOWTIME": "Zu früh. Der Saal ist für diese Vorstellung noch nicht geöffnet.",
+    "SHOWTIME_ALREADY_PASSED": "Ticket abgelaufen. Diese Vorstellung ist bereits vorbei."
+  },
+  "admin": {
+    "title": "Personalverwaltung",
+    "loading": "Mitarbeiterverzeichnis wird geladen...",
+    "search_placeholder": "Mitarbeiter nach E-Mail suchen...",
+    "th_email": "Benutzer-E-Mail",
+    "th_id": "Benutzer-ID",
+    "th_status": "Aktueller Status",
+    "th_action": "Berechtigung zuweisen",
+    "role_option_user": "Benutzer (Kunde)",
+    "role_option_cashier": "Kassierer (Personal)",
+    "role_option_tenant": "Kino-Admin (Manager)",
+    "no_results": "Keine verwalteten oder berechtigten Mitarbeiter gefunden, die Ihrer Anfrage entsprechen",
+    "role_updated_success": "Benutzerrolle erfolgreich aktualisiert!",
+    "role_updated_error": "Fehler: Sie haben keine Berechtigung, Rollen zu ändern, oder es ist ein Netzwerkfehler aufgetreten."
+  },
+  "cashier": {
+    "workspace_title": "Kassenarbeitsplatz",
+    "loading_cinemas": "Kinos werden geladen...",
+    "loading_hall_map": "Saalplan wird geladen...",
+    "lbl_select_cinema": "Kino auswählen",
+    "lbl_select_showtime": "Vorstellung auswählen",
+    "lbl_pricing_strategy": "Preisstrategie",
+    "opt_choose_cinema": "-- Kino wählen --",
+    "opt_choose_showtime": "-- Vorstellung wählen --",
+    "opt_loading_sessions": "Vorstellungen werden geladen...",
+    "opt_select_type": "-- Typ wählen --",
+    "screen_area": "Leinwandbereich",
+    "cart_selected_seats": "Ausgewählte Sitze",
+    "cart_total": "Gesamt",
+    "fallback_hint": "Bitte wählen Sie ein Kino und eine Vorstellung, um den Saalplan anzuzeigen.",
+    "btn_print_tickets": "Kassentickets drucken ({{count}})",
+    "sale_success": "Erfolg! Physisches Ticket gedruckt.",
+    "sale_error": "Fehler: Einer der ausgewählten Sitze wurde gerade von einem Online-Nutzer gesperrt oder gekauft."
   }
-
-
-
-
-
-
-
 }

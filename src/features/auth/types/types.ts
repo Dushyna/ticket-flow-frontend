@@ -5,7 +5,7 @@ export interface UserResponseDto {
     lastName: string;
     birthDate?: string;
     phone?: string;
-    role: 'ROLE_USER' | 'ROLE_TENANT' | 'ROLE_SUPER_ADMIN';
+    role: 'ROLE_USER' | 'ROLE_TENANT_ADMIN' | 'ROLE_CASHIER' | 'ROLE_CONTROLLER' | 'ROLE_SUPER_ADMIN';
     confirmationStatus: string;
     organizationId: string | null;
 }
@@ -13,5 +13,10 @@ export interface UserResponseDto {
 export interface LoginRequest {
     email: string;
     password: string;
+}
+
+export interface UpdateUserRoleRequest {
+    userId: string;
+    role: 'ROLE_SUPER_ADMIN' | 'ROLE_TENANT_ADMIN' | 'ROLE_CASHIER' | 'ROLE_CONTROLLER'| 'ROLE_USER';
 }
 
