@@ -10,6 +10,7 @@ import {useCreateBookingMutation, useGetOccupiedSeatsQuery} from "../../features
 import {useAppDispatch} from "../../app/hooks.ts";
 import {useTranslation} from 'react-i18next';
 import {ChevronLeft} from "lucide-react";
+import {calculateSeatPrice, checkSeatAvailability, toggleSeatInCart} from "../../features/cinema/utils/utils.ts";
 
 const HallBookingPage = () => {
     const {showtimeId} = useParams<{ showtimeId: string }>();
@@ -38,42 +39,40 @@ const HallBookingPage = () => {
     const defaultTicketType = useMemo(() => ticketTypes?.find(t => t.isDefault) || ticketTypes?.[0], [ticketTypes]);
 
     const handleSeatClick = (r: number, c: number) => {
-        if (hall?.layoutConfig.grid[r][c] === 'aisle') return;
+        const seatStatus = checkSeatAvailability(r, c, hall?.layoutConfig.grid || [], occupiedSeats);
 
-        const isOccupied = occupiedSeats?.some(s => s.row === r && s.col === c);
-        if (isOccupied) {
-            dispatch(showNotification({message: t('booking.error_taken'), type: "error"}));
+        if (seatStatus === 'aisle') return;
+        if (seatStatus === 'taken') {
+            dispatch(showNotification({ message: t('booking.error_taken'), type: "error" }));
             return;
         }
 
-        const isAlreadySelected = selectedSeats.some(s => s.r === r && s.c === c);
-        if (isAlreadySelected) {
-            setSelectedSeats(selectedSeats.filter(s => !(s.r === r && s.c === c)));
-        } else {
-            if (selectedSeats.length < 6) {
-                setSelectedSeats([...selectedSeats, {r, c, typeId: defaultTicketType?.id}]);
-            } else {
-                dispatch(showNotification({
-                    message: t('booking.error_limit', {count: 6}),
-                    type: "info"
-                }));
-            }
+        const { updatedSeats, limitExceeded } = toggleSeatInCart(selectedSeats, r, c, defaultTicketType?.id, 6);
+
+        if (limitExceeded) {
+            dispatch(showNotification({
+                message: t('booking.error_limit', { count: 6 }),
+                type: "info"
+            }));
+            return;
         }
+
+        setSelectedSeats(updatedSeats);
     };
 
+    // --- REPLACED WITH THE SAME CLEAN UTILS FUNCTION CALL ---
     const totalPrice = useMemo(() => {
         if (!hall || !showtime) return 0;
 
         return selectedSeats.reduce((sum, seat) => {
-            const zoneId = hall.layoutConfig.grid[seat.r]?.[seat.c];
-            const zone = hall.layoutConfig.zoneConfigs.find(z => z.id === zoneId);
-
-            const zoneMultiplier = (zone as { multiplier?: number })?.multiplier || 1.0;
-
-            const ticketType = ticketTypes?.find(t => t.id === seat.typeId) || defaultTicketType;
-            const ticketDiscount = ticketType?.discount || 1.0;
-
-            return sum + ((showtime.basePrice || 0) * zoneMultiplier * ticketDiscount);
+            return sum + calculateSeatPrice(
+                seat,
+                showtime.basePrice,
+                hall.layoutConfig.grid,
+                hall.layoutConfig.zoneConfigs,
+                ticketTypes || [],
+                defaultTicketType
+            );
         }, 0);
     }, [selectedSeats, ticketTypes, showtime, hall, defaultTicketType]);
 
@@ -90,9 +89,13 @@ const HallBookingPage = () => {
                 }))
             };
 
-            await createBooking(payload).unwrap();
+            const result = await createBooking(payload).unwrap();
             dispatch(showNotification({message: t('booking.success_booking'), type: "success"}));
-            navigate('/dashboard');
+            if (result.paymentUrl) {
+                window.location.href = result.paymentUrl;
+            } else {
+                navigate('/dashboard');
+            }
         } catch (err) {
             const errorData = err as { data?: { message?: string } };
             const errorMessage = errorData.data?.message || t('booking.error_failed');

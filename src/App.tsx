@@ -1,5 +1,5 @@
 import { useEffect, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import {BrowserRouter, Routes, Route, useNavigate, Navigate} from 'react-router-dom';
 import { useGetCurrentUserQuery } from './features/auth/services/authApi';
 import { setCredentials, logOut } from './features/auth/slice/authSlice';
 import { type RootState } from './app/store';
@@ -22,6 +22,12 @@ import MovieManagementPage from "./pages/admin/MovieManagementPage.tsx";
 import SchedulePage from "./pages/admin/SchedulePage.tsx";
 import TicketTypesPage from "./pages/admin/TicketTypesPage.tsx";
 import {useAppDispatch, useAppSelector} from "./app/hooks.ts";
+import PaymentSuccess from "./pages/booking/PaymentSuccess.tsx";
+import PaymentCancel from "./pages/booking/PaymentCancel.tsx";
+import UserProfile from "./pages/UserProfile.tsx";
+import { AdminUserManagement } from "./pages/admin/AdminUserManagement.tsx";
+import { CashierCabinet } from "./pages/admin/CashierCabinet.tsx";
+import { ControllerCabinet } from "./pages/admin/ControllerCabinet.tsx";
 
 const OAuth2RedirectHandler = () => {
     const navigate = useNavigate();
@@ -46,6 +52,8 @@ const AppContent = () => {
     const dispatch = useAppDispatch();
     const { data: user, isSuccess, isError, isLoading } = useGetCurrentUserQuery();
 
+    const auth = useAppSelector((state: RootState) => state.auth);
+
     useEffect(() => {
         if (isSuccess && user) {
             dispatch(setCredentials(user));
@@ -61,6 +69,9 @@ const AppContent = () => {
             </div>
         );
     }
+
+    const isAdmin = auth.user?.role === 'ROLE_SUPER_ADMIN' || auth.user?.role === 'ROLE_TENANT_ADMIN';
+    const isCashier = auth.user?.role === 'ROLE_CASHIER';
 
     return (
         <div
@@ -89,7 +100,23 @@ const AppContent = () => {
                     <Route path="/admin/schedule" element={<SchedulePage />} />
                     <Route path="/admin/tickets" element={<TicketTypesPage />} />
                     <Route path="/hall/book/:showtimeId" element={<HallBookingPage />} />
+                    <Route path="/payment/success" element={<PaymentSuccess />} />
+                    <Route path="/payment/cancel" element={<PaymentCancel />} />
+                    <Route path="/profile" element={<UserProfile />} />
+                    <Route
+                        path="/admin/users"
+                        element={isAdmin ? <AdminUserManagement /> : <Navigate to="/dashboard" replace />}
+                    />
 
+                    <Route
+                        path="/cashier"
+                        element={isCashier || isAdmin ? <CashierCabinet /> : <Navigate to="/dashboard" replace />}
+                    />
+
+                    <Route
+                        path="/controller" 
+                        element={auth.user?.role === 'ROLE_CONTROLLER' || isCashier || isAdmin ? <ControllerCabinet /> : <Navigate to="/dashboard" replace />}
+                    />
                 </Routes>
             </main>
             <Footer />

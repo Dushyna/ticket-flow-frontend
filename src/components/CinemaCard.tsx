@@ -5,6 +5,7 @@ import { type Cinema } from '../features/cinema/utils/utils';
 import { Ticket, Settings, Calendar} from "lucide-react";
 import { groupShowtimesByDate, formatTime } from '../features/cinema/utils/dateTimeUtils';
 import { useTranslation } from 'react-i18next';
+import {useMemo, useState} from "react";
 
 const CinemaCard = ({ cinema }: { cinema: Cinema }) => {
     const navigate = useNavigate();
@@ -12,7 +13,21 @@ const CinemaCard = ({ cinema }: { cinema: Cinema }) => {
     const { data: halls, isLoading: isHallsLoading  } = useGetHallsByCinemaQuery(cinema.id);
     const { data: showtimes, isLoading: isShowtimesLoading } = useGetShowtimesByCinemaQuery(cinema.id);
 
-    const groupedSessions = showtimes ? groupShowtimesByDate(showtimes) : {};
+    const [pageLoadTime] = useState(() => Date.now());
+
+    const groupedSessions = useMemo(() => {
+        if (!showtimes) return {};
+
+        const ONE_HOUR_MS = 60 * 60 * 1000;
+        const cutoffTime = pageLoadTime + ONE_HOUR_MS;
+
+        const availableShowtimes = showtimes.filter(st => {
+            return new Date(st.startTime).getTime() > cutoffTime;
+        });
+
+        return groupShowtimesByDate(availableShowtimes);
+    }, [showtimes, pageLoadTime]);
+
     return (
         <div className="p-8 bg-white/5 border border-white/10 rounded-3xl hover:bg-white/10 hover:border-indigo-500/50 transition-all group">
             <div className="flex justify-between items-start mb-6">
