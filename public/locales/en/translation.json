@@ -206,7 +206,23 @@
     "list_title": "Existing Movies",
     "empty_list": "No movies added yet. Use the form to start.",
     "modal_delete_title": "Delete Movie",
-    "modal_delete_msg": "Are you sure you want to delete \"{{title}}\"? This action cannot be undone."
+    "modal_delete_msg": "Are you sure you want to delete \"{{title}}\"? This action cannot be undone.",
+    "title": "Now Showing",
+    "loading": "Loading movies for your location...",
+    "city_label": "Your City:",
+    "all_cities": "All Cities",
+    "empty_state": "No movies currently scheduled for this location.",
+    "minutes_short": "min",
+    "view_showtimes": "View Showtimes"
+  },
+  "cinemas": {
+    "title": "Available Showtimes",
+    "subtitle": "Select your preferred cinema and session time to book seats.",
+    "loading": "Loading schedule and locations...",
+    "current_city": "Current City:",
+    "all_cities": "All Cities",
+    "location": "Location:",
+    "empty_state": "No available showtimes found for this selection."
   },
   "schedule_page": {
     "title": "Schedule",

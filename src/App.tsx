@@ -28,6 +28,8 @@ import UserProfile from "./pages/UserProfile.tsx";
 import { AdminUserManagement } from "./pages/admin/AdminUserManagement.tsx";
 import { CashierCabinet } from "./pages/admin/CashierCabinet.tsx";
 import { ControllerCabinet } from "./pages/admin/ControllerCabinet.tsx";
+import MoviesPage from "./pages/MoviesPage.tsx";
+import MovieCinemasPage from "./pages/MovieCinemasPage.tsx";
 
 const OAuth2RedirectHandler = () => {
     const navigate = useNavigate();
@@ -100,6 +102,8 @@ const AppContent = () => {
                     <Route path="/admin/schedule" element={<SchedulePage />} />
                     <Route path="/admin/tickets" element={<TicketTypesPage />} />
                     <Route path="/hall/book/:showtimeId" element={<HallBookingPage />} />
+                    <Route path="/movies" element={<MoviesPage />} />
+                    <Route path="/movies/:movieId/cinemas" element={<MovieCinemasPage />} />
                     <Route path="/payment/success" element={<PaymentSuccess />} />
                     <Route path="/payment/cancel" element={<PaymentCancel />} />
                     <Route path="/profile" element={<UserProfile />} />
