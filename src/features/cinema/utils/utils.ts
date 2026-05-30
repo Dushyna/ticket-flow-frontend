@@ -51,6 +51,7 @@ export interface Showtime {
     id: string;
     movieId: string;
     movieTitle: string;
+    cinemaId: string;
     hallId: string;
     hallName: string;
     startTime: string;

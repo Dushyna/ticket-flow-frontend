@@ -22,6 +22,10 @@ export const movieApi = createApi({
             }),
             invalidatesTags: ['Movies'],
         }),
+        getAllShowtimes: builder.query<Showtime[], void>({
+            query: () => '/showtimes',
+            providesTags: ['Showtimes'],
+        }),
         getShowtimesByHall: builder.query<Showtime[], string>({
             query: (hallId) => `/showtimes/hall/${hallId}`,
             providesTags: ['Showtimes'],
@@ -45,6 +49,11 @@ export const movieApi = createApi({
                 body: showtime,
             }),
             invalidatesTags: ['Showtimes'],
+        }),
+
+        getShowtimesByMovie: builder.query<Showtime[], string>({
+            query: (movieId) => `/showtimes/movie/${movieId}`,
+            providesTags: ['Showtimes'],
         }),
 
         deleteShowtime: builder.mutation<void, string>({
@@ -86,6 +95,7 @@ export const {
     useGetMoviesQuery,
     useCreateMovieMutation,
     useDeleteMovieMutation,
+    useGetAllShowtimesQuery,
     useGetShowtimesByHallQuery,
     useGetShowtimesByCinemaQuery,
     useGetShowtimeByIdQuery,
@@ -95,5 +105,6 @@ export const {
     useGetMyTicketTypesQuery,
     useGetTicketTypesByOrgQuery,
     useCreateTicketTypeMutation,
-    useDeleteTicketTypeMutation
+    useDeleteTicketTypeMutation,
+    useGetShowtimesByMovieQuery
 } = movieApi;

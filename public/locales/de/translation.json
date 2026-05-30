@@ -206,7 +206,23 @@
     "list_title": "Vorhandene Filme",
     "empty_list": "Noch keine Filme hinzugefügt. Nutzen Sie das Formular, um zu starten.",
     "modal_delete_title": "Film löschen",
-    "modal_delete_msg": "Sind Sie sicher, dass Sie \"{{title}}\" löschen möchten? Dies kann nicht rückgängig gemacht werden."
+    "modal_delete_msg": "Sind Sie sicher, dass Sie \"{{title}}\" löschen möchten? Dies kann nicht rückgängig gemacht werden.",
+    "title": "Aktuelle Filme",
+    "loading": "Filme für Ihren Standort werden geladen...",
+    "city_label": "Ihre Stadt:",
+    "all_cities": "Alle Städte",
+    "empty_state": "Für diesen Standort sind derzeit keine Filme geplant.",
+    "minutes_short": "Min.",
+    "view_showtimes": "Spielzeiten anzeigen"
+  },
+  "cinemas": {
+    "title": "Verfügbare Spielzeiten",
+    "subtitle": "Wählen Sie Ihr bevorzugtes Kino und Ihre Sitzungszeit, um Sitzplätze zu buchen.",
+    "loading": "Zeitplan und Standorte werden geladen...",
+    "current_city": "Aktuelle Stadt:",
+    "all_cities": "Alle Städte",
+    "location": "Standort:",
+    "empty_state": "Für diese Auswahl wurden keine verfügbaren Spielzeiten gefunden."
   },
   "schedule_page": {
     "title": "Spielplan",

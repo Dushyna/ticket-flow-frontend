@@ -32,8 +32,6 @@ const AboutPage = () => {
         ? t('about.owner.cta_dashboard')
         : t(`about.${viewMode}.cta`);
 
-    const path = viewMode === 'owner' && isAuthenticated ? '/dashboard' : (viewMode === 'viewer' ? '/movies' : '/register');
-
     const features = t(`about.${viewMode}.features`, { returnObjects: true }) as Array<{title: string, desc: string, iconKey: string}>;
 
     return (
@@ -79,7 +77,15 @@ const AboutPage = () => {
 
             <div className="flex gap-4 justify-center">
                 <button
-                    onClick={() => navigate(path)}
+                    onClick={() => {
+                        if (viewMode === 'viewer') {
+                            navigate('/movies');
+                        } else if (viewMode === 'owner' && isAuthenticated) {
+                            navigate('/dashboard');
+                        } else {
+                            navigate('/register');
+                        }
+                    }}
                     className="px-10 py-4 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 shadow-xl shadow-indigo-500/20 transition-all active:scale-95"
                 >
                     {cta}
