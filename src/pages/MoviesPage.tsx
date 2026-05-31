@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useGetMoviesQuery, useGetAllShowtimesQuery } from '../features/cinema/services/movieApi';
 import { useGetCinemasQuery } from '../features/cinema/services/cinemaApi';
+import { formatDateLabel } from '../features/cinema/utils/dateTimeUtils.ts';
 
 const MoviesPage = () => {
     const navigate = useNavigate();
@@ -43,6 +44,26 @@ const MoviesPage = () => {
         );
     }) || [];
 
+    const getNearestShowtimeLabel = (movieId: string) => {
+        const cinemaIdsInCity = cinemas
+            ?.filter(c => selectedCity === 'All' || c.address.toLowerCase() === selectedCity.toLowerCase())
+            .map(c => c.id) || [];
+
+        const movieSessions = showtimes?.filter(s =>
+            s.movieId === movieId &&
+            cinemaIdsInCity.includes(s.cinemaId) &&
+            new Date(s.startTime).getTime() > Date.now()
+        ) || [];
+
+        if (movieSessions.length === 0) return null;
+
+        const sortedSessions = [...movieSessions].sort((a, b) =>
+            new Date(a.startTime).getTime() - new Date(b.startTime).getTime()
+        );
+
+        return formatDateLabel(sortedSessions[0].startTime);
+    };
+
     return (
         <div className="max-w-6xl w-full p-6 bg-slate-900/80 backdrop-blur-md rounded-3xl text-white border border-white/10 animate-in fade-in duration-300">
 
@@ -77,7 +98,10 @@ const MoviesPage = () => {
                 </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                    {filteredMovies.map((movie) => (
+                    {filteredMovies.map((movie) => {
+                        const nearestDate = getNearestShowtimeLabel(movie.id);
+
+                        return (
                         <div
                             key={movie.id}
                             onClick={() => navigate(`/movies/${movie.id}/cinemas`)}
@@ -87,6 +111,11 @@ const MoviesPage = () => {
                                 <h3 className="font-black text-xl mb-2 group-hover:text-indigo-400 transition-colors uppercase italic tracking-wide line-clamp-2">
                                     {movie.title}
                                 </h3>
+                                {nearestDate && (
+                                    <div className="text-[11px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-md w-fit mb-3 uppercase tracking-wider">
+                                        {t('movies.nearest', 'Next:')} {nearestDate}
+                                    </div>
+                                )}
                                 <p className="text-slate-400 text-xs line-clamp-3 leading-relaxed font-medium">
                                     {movie.description}
                                 </p>
@@ -100,7 +129,8 @@ const MoviesPage = () => {
                                 </span>
                             </div>
                         </div>
-                    ))}
+            );
+            })}
                 </div>
             )}
         </div>

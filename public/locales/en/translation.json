@@ -44,7 +44,8 @@
     "register_link": "Register now",
     "success_msg": "Welcome back!",
     "error_invalid": "Invalid email or password",
-    "forgot_password": "Forgot password?"
+    "forgot_password": "Forgot password?",
+    "google_sync": "Syncing with Google..."
   },
   "hall_designer": {
     "title": "Hall Designer",
@@ -213,7 +214,8 @@
     "all_cities": "All Cities",
     "empty_state": "No movies currently scheduled for this location.",
     "minutes_short": "min",
-    "view_showtimes": "View Showtimes"
+    "view_showtimes": "View Showtimes",
+    "nearest": "Next:"
   },
   "cinemas": {
     "title": "Available Showtimes",

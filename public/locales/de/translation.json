@@ -44,7 +44,8 @@
     "register_link": "Jetzt registrieren",
     "success_msg": "Willkommen zurück!",
     "error_invalid": "Ungültige E-Mail або Passwort",
-    "forgot_password": "Passwort vergessen?"
+    "forgot_password": "Passwort vergessen?",
+    "google_sync": "Synchronisierung mit Google..."
   },
   "hall_designer": {
     "title": "Saal-Designer",
@@ -213,7 +214,8 @@
     "all_cities": "Alle Städte",
     "empty_state": "Für diesen Standort sind derzeit keine Filme geplant.",
     "minutes_short": "Min.",
-    "view_showtimes": "Spielzeiten anzeigen"
+    "view_showtimes": "Spielzeiten anzeigen",
+    "nearest": "Nächste:"
   },
   "cinemas": {
     "title": "Verfügbare Spielzeiten",
