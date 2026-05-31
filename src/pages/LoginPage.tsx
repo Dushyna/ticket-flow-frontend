@@ -35,7 +35,11 @@ const LoginPage = () => {
                 message: t('login.success_msg'),
                 type: 'success'
             }));
-            navigate('/dashboard');
+            if (userData.role === 'ROLE_USER') {
+                navigate('/movies');
+            } else {
+                navigate('/dashboard');
+            }
         } catch (err) {
             const fetchError = err as FetchBaseQueryError;
             const errorMessage = (fetchError.data as { message?: string })?.message

@@ -44,7 +44,8 @@
     "register_link": "Зареєструватися",
     "success_msg": "З поверненням!",
     "error_invalid": "Невірний email або пароль",
-    "forgot_password": "Забули пароль?"
+    "forgot_password": "Забули пароль?",
+    "google_sync": "Синхронізація з Google..."
   },
   "hall_designer": {
     "title": "Конструктор залу",
@@ -213,7 +214,8 @@
     "all_cities": "Усі міста",
     "empty_state": "Наразі немає запланованих фільмів для цього міста.",
     "minutes_short": "хв",
-    "view_showtimes": "Дивитися сеанси"
+    "view_showtimes": "Дивитися сеанси",
+    "nearest": "Наступний:"
   },
   "cinemas": {
     "title": "Доступні сеанси",

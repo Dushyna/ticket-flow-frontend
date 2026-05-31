@@ -30,21 +30,27 @@ import { CashierCabinet } from "./pages/admin/CashierCabinet.tsx";
 import { ControllerCabinet } from "./pages/admin/ControllerCabinet.tsx";
 import MoviesPage from "./pages/MoviesPage.tsx";
 import MovieCinemasPage from "./pages/MovieCinemasPage.tsx";
+import {useTranslation} from "react-i18next";
 
 const OAuth2RedirectHandler = () => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const { user, isAuthenticated } = useAppSelector((state: RootState) => state.auth);
 
     useEffect(() => {
         if (isAuthenticated && user) {
-            navigate('/dashboard');
+            if (user.role === 'ROLE_USER') {
+                navigate('/movies');
+            } else {
+                navigate('/dashboard');
+            }
         }
     }, [user, isAuthenticated, navigate]);
 
     return (
         <div className="flex items-center justify-center h-screen bg-slate-950">
             <div className="text-xl font-black text-indigo-500 animate-pulse uppercase italic">
-                Syncing with Google...
+                {t('login.google_sync', 'Syncing with Google...')}
             </div>
         </div>
     );
