@@ -188,7 +188,8 @@ const HallBookingPage = () => {
                                 >
                                     {ticketTypes?.map(tt => (
                                         <option key={tt.id} value={tt.id}>
-                                            {tt.label} (x{tt.discount})
+                                            {t(`ticket_names.${tt.label.trim().toUpperCase()}`, { defaultValue: tt.label })}
+                                            (x{tt.discount})
                                         </option>
                                     ))}
                                 </select>

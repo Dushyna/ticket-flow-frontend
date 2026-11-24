@@ -34,6 +34,7 @@
     "controller_gate": "Контроль"
   },
   "login": {
+    "logged_in_as": "Ви увійшли як",
     "title": "Вхід",
     "subtitle": "З поверненням! Будь ласка, введіть ваші дані.",
     "email_placeholder": "Електронна пошта",
@@ -60,6 +61,10 @@
   },
   "logged_in_as": "Ви увійшли як",
   "dashboard": {
+    "btn_cashier_workspace": "Відкрити касу",
+    "btn_gate_control": "Контроль входу",
+    "btn_manage_staff": "Керування персоналом",
+    "no_cinemas": "Кінотеатрів не знайдено.",
     "title_my": "Мої",
     "title_theaters": "Кінотеатри",
     "btn_pricing": "Ціноутворення",
@@ -314,6 +319,8 @@
     "error_empty": "Кінотеатрів не знайдено!"
   },
   "hall_editor": {
+    "new_category": "Нова категорія",
+    "default_hall_name": "Новий зал",
     "btn_undo": "Скасувати дію",
     "btn_fill_all": "Заповнити все",
     "btn_clear_all": "Очистити все",
@@ -416,6 +423,14 @@
     "role_updated_error": "Помилка: У вас немає прав для зміни ролей або сталася помилка мережі."
   },
   "cashier": {
+    "th_action": "Дія",
+    "btn_reprint": "Повторний друк",
+    "history_title": "Історія продажів",
+    "th_time": "Час",
+    "th_movie": "Фільм",
+    "th_qty": "К-сть",
+    "th_total": "Сума",
+    "th_actions": "Дії",
     "workspace_title": "Робоче місце касира",
     "loading_cinemas": "Завантаження кінотеатрів...",
     "loading_hall_map": "Завантаження схеми залу...",
@@ -433,5 +448,11 @@
     "btn_print_tickets": "Роздрукувати квитки ({{count}})",
     "sale_success": "Успіх! Касовий квиток роздруковано.",
     "sale_error": "Помилка: Одне з обраних місць щойно було заброньовано або викуплено онлайн-користувачем."
+  },
+  "ticket_names": {
+    "ADULT": "Дорослий",
+    "STUDENT": "Студентський",
+    "CHILD": "Дитячий",
+    "VIP": "VIP"
   }
 }

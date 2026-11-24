@@ -1,17 +1,17 @@
 import { type Showtime } from "./utils.ts";
 
-export const formatDateLabel = (dateStr: string): string => {
+export const formatDateLabel = (dateStr: string, locale: string = 'en-GB'): string => {
     const date = new Date(dateStr);
-    return date.toLocaleDateString('en-GB', {
+    return date.toLocaleDateString(locale, {
         weekday: 'long',
         day: 'numeric',
         month: 'long'
     });
 };
 
-export const groupShowtimesByDate = (showtimes: Showtime[]): Record<string, Showtime[]> => {
+export const groupShowtimesByDate = (showtimes: Showtime[], locale: string = 'en-GB'): Record<string, Showtime[]> => {
     return showtimes.reduce((groups: Record<string, Showtime[]>, showtime) => {
-        const date = formatDateLabel(showtime.startTime);
+        const date = formatDateLabel(showtime.startTime, locale);
         if (!groups[date]) {
             groups[date] = [];
         }

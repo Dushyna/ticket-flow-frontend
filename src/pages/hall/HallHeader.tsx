@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import CinemaSelect from "./CinemaSelect.tsx";
 import ExportButton from "./ExportButton.tsx";
 import type {SizeInputProps, ZoneConfig, ZoneType} from "./types.ts";
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
 interface HallData {
     name: string;
@@ -34,7 +34,7 @@ export const HallHeader = ({
                            }: HallHeaderProps) => {
     const [localRows, setLocalRows] = useState(hallData.rows);
     const [localCols, setLocalCols] = useState(hallData.cols);
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     return (
         <div className="flex justify-between items-center mb-10">
@@ -43,9 +43,11 @@ export const HallHeader = ({
             </h1>
 
             <div className="flex items-center gap-4">
-                <div className="flex items-center gap-6 h-20 bg-white/5 px-6 rounded-[24px] border border-white/10 shadow-inner">
+                <div
+                    className="flex items-center gap-6 h-20 bg-white/5 px-6 rounded-[24px] border border-white/10 shadow-inner">
                     <div className="flex flex-col gap-1.5">
-                        <label className="text-[9px] font-black uppercase tracking-[0.2em] text-indigo-400 ml-2">{t('hall_editor.label_name')}</label>
+                        <label
+                            className="text-[9px] font-black uppercase tracking-[0.2em] text-indigo-400 ml-2">{t('hall_editor.label_name')}</label>
                         <input
                             value={hallData.name}
                             onChange={(e) => setHallData(prev => ({...prev, name: e.target.value}))}

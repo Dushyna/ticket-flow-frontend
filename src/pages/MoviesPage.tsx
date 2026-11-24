@@ -7,7 +7,7 @@ import { formatDateLabel } from '../features/cinema/utils/dateTimeUtils.ts';
 
 const MoviesPage = () => {
     const navigate = useNavigate();
-    const { t } = useTranslation();
+    const { t, i18n  } = useTranslation();
 
     const { data: movies, isLoading: isMoviesLoading } = useGetMoviesQuery();
     const { data: showtimes, isLoading: isShowtimesLoading } = useGetAllShowtimesQuery();
@@ -61,7 +61,7 @@ const MoviesPage = () => {
             new Date(a.startTime).getTime() - new Date(b.startTime).getTime()
         );
 
-        return formatDateLabel(sortedSessions[0].startTime);
+        return formatDateLabel(sortedSessions[0].startTime, i18n.language);
     };
 
     return (

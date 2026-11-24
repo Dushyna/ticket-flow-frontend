@@ -34,6 +34,7 @@
     "controller_gate": "Einlasskontrolle"
   },
   "login": {
+    "logged_in_as": "Angemeldet als",
     "title": "Anmelden",
     "subtitle": "Willkommen zurück! Bitte geben Sie Ihre Daten ein.",
     "email_placeholder": "E-Mail-Adresse",
@@ -60,6 +61,10 @@
   },
   "logged_in_as": "Angemeldet als",
   "dashboard": {
+    "btn_cashier_workspace": "Kasse öffnen",
+    "btn_gate_control": "Einlasskontrolle",
+    "btn_manage_staff": "Personalverwaltung",
+    "no_cinemas": "Keine Kinos gefunden.",
     "title_my": "Meine",
     "title_theaters": "Kinos",
     "btn_pricing": "Preise",
@@ -314,6 +319,8 @@
     "error_empty": "Keine Kinos gefunden!"
   },
   "hall_editor": {
+    "new_category": "Neue Kategorie",
+    "default_hall_name": "Neuer Saal",
     "btn_undo": "Rückgängig",
     "btn_fill_all": "Alle füllen",
     "btn_clear_all": "Alles löschen",
@@ -416,6 +423,14 @@
     "role_updated_error": "Fehler: Sie haben keine Berechtigung, Rollen zu ändern, oder es ist ein Netzwerkfehler aufgetreten."
   },
   "cashier": {
+    "th_action": "Aktion",
+    "btn_reprint": "Erneut drucken",
+    "history_title": "Verkaufshistorie",
+    "th_time": "Zeit",
+    "th_movie": "Film",
+    "th_qty": "Menge",
+    "th_total": "Gesamt",
+    "th_actions": "Aktionen",
     "workspace_title": "Kassenarbeitsplatz",
     "loading_cinemas": "Kinos werden geladen...",
     "loading_hall_map": "Saalplan wird geladen...",
@@ -433,5 +448,11 @@
     "btn_print_tickets": "Kassentickets drucken ({{count}})",
     "sale_success": "Erfolg! Physisches Ticket gedruckt.",
     "sale_error": "Fehler: Einer der ausgewählten Sitze wurde gerade von einem Online-Nutzer gesperrt oder gekauft."
+  },
+  "ticket_names": {
+    "ADULT": "Erwachsene",
+    "STUDENT": "Student / Schüler",
+    "CHILD": "Kind",
+    "VIP": "VIP"
   }
 }
