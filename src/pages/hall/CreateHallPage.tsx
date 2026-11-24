@@ -1,10 +1,10 @@
-import { useRef, useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { showNotification } from '../../features/notifications/slice/notificationSlice.ts';
+import {useRef, useState, useEffect} from 'react';
+import {useNavigate, useParams} from 'react-router-dom';
+import {showNotification} from '../../features/notifications/slice/notificationSlice.ts';
 
-import { HallHeader } from './HallHeader';
-import { HallStats } from './HallStats';
-import { HallSvgGrid } from './HallSvgGrid';
+import {HallHeader} from './HallHeader';
+import {HallStats} from './HallStats';
+import {HallSvgGrid} from './HallSvgGrid';
 import ZonePicker from './ZonePicker';
 import HallLegend from './HallLegend';
 import HallScreen from './HallScreen';
@@ -17,20 +17,20 @@ import {
 } from 'lucide-react';
 
 import {INITIAL_ZONES, type ZoneConfig, type ZoneType} from './types.ts';
-import { useHallEditor } from '../../features/cinema/hooks/useHallEditor';
+import {useHallEditor} from '../../features/cinema/hooks/useHallEditor';
 import {
     useCreateHallMutation,
     useGetHallByIdQuery,
     useUpdateHallMutation
 } from '../../features/cinema/services/cinemaApi';
 import {useAppDispatch} from "../../app/hooks.ts";
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
 const CreateHallPage = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const { t } = useTranslation();
-    const { hallId } = useParams<{ hallId: string }>();
+    const {t} = useTranslation();
+    const {hallId} = useParams<{ hallId: string }>();
     const svgRef = useRef<SVGSVGElement>(null);
     const [isInitialized, setIsInitialized] = useState(false);
     const [isZoomedOut, setIsZoomedOut] = useState(false);
@@ -41,7 +41,7 @@ const CreateHallPage = () => {
         toggleSeat, toggleRow, toggleColumn,
         handleUndo, fillAll, history
     } = useHallEditor({
-        name: 'New Hall',
+        name: '',
         cinemaId: '',
         rows: 10,
         cols: 12,
@@ -49,9 +49,9 @@ const CreateHallPage = () => {
         configs: INITIAL_ZONES
     });
 
-    const { data: existingHall, isSuccess } = useGetHallByIdQuery(hallId || '', { skip: !hallId });
-    const [createHall, { isLoading: isCreating }] = useCreateHallMutation();
-    const [updateHall, { isLoading: isUpdating }] = useUpdateHallMutation();
+    const {data: existingHall, isSuccess} = useGetHallByIdQuery(hallId || '', {skip: !hallId});
+    const [createHall, {isLoading: isCreating}] = useCreateHallMutation();
+    const [updateHall, {isLoading: isUpdating}] = useUpdateHallMutation();
     const isProcessing = isCreating || isUpdating;
 
     const addZone = () => {
@@ -65,7 +65,7 @@ const CreateHallPage = () => {
 
         const newZone: ZoneConfig = {
             id: newId,
-            label: 'New Category',
+            label: t('hall_editor.new_category', 'New Category'),
             color: selectedColor,
             glow: selectedColor + '66',
             multiplier: 1.0
@@ -91,13 +91,13 @@ const CreateHallPage = () => {
     const updateZoneLabel = (id: string, label: string, multiplier: number) => {
         setHallData(prev => ({
             ...prev,
-            configs: prev.configs.map(z => z.id === id ? { ...z, label, multiplier } : z)
+            configs: prev.configs.map(z => z.id === id ? {...z, label, multiplier} : z)
         }));
     };
 
     const handleResize = (newRows: number, newCols: number) => {
         if (newRows > 50 || newCols > 50) {
-            dispatch(showNotification({ message: t('hall_editor.error_max_size', { size: 50 }), type: "error" }));
+            dispatch(showNotification({message: t('hall_editor.error_max_size', {size: 50}), type: "error"}));
             return;
         }
 
@@ -105,8 +105,8 @@ const CreateHallPage = () => {
             ...prev,
             rows: newRows,
             cols: newCols,
-            grid: Array.from({ length: newRows }, (_, r) =>
-                Array.from({ length: newCols }, (_, c) =>
+            grid: Array.from({length: newRows}, (_, r) =>
+                Array.from({length: newCols}, (_, c) =>
                     (prev.grid[r] && prev.grid[r][c]) ? prev.grid[r][c] : 'parterre'
                 )
             )
@@ -140,41 +140,43 @@ const CreateHallPage = () => {
 
     const saveHall = async () => {
         if (!hallData.grid.flat().some(cell => cell !== 'aisle')) {
-            dispatch(showNotification({ message: t('hall_editor.error_no_seats'), type: 'error' }));
+            dispatch(showNotification({message: t('hall_editor.error_no_seats'), type: 'error'}));
             return;
         }
         if (!hallData.cinemaId) {
-            dispatch(showNotification({ message: t('hall_editor.error_no_cinema'), type: 'error' }));
+            dispatch(showNotification({message: t('hall_editor.error_no_cinema'), type: 'error'}));
             return;
         }
 
         try {
             const payload = {
-                name: hallData.name,
+                name: hallData.name.trim() || t('hall_editor.placeholder_name'),
                 cinemaId: hallData.cinemaId,
                 rows: hallData.grid.length,
                 cols: hallData.grid[0]?.length || 0,
-                layoutConfig: { grid: hallData.grid, zoneConfigs: hallData.configs }
+                layoutConfig: {grid: hallData.grid, zoneConfigs: hallData.configs}
             };
 
             if (hallId) {
-                await updateHall({ id: hallId, body: payload }).unwrap();
+                await updateHall({id: hallId, body: payload}).unwrap();
             } else {
                 await createHall(payload).unwrap();
             }
 
-            dispatch(showNotification({ message: t('hall_editor.success_save'), type: 'success' }));
+            dispatch(showNotification({message: t('hall_editor.success_save'), type: 'success'}));
             navigate('/dashboard');
         } catch (err) {
             const errorData = err as { data?: { message?: string } };
             dispatch(showNotification({
-                message: errorData.data?.message ||  t('hall_editor.error_save'),
-                type: 'error' }));
+                message: errorData.data?.message || t('hall_editor.error_save'),
+                type: 'error'
+            }));
         }
     };
 
     return (
-        <div className="w-full max-w-6xl p-10 bg-black/40 backdrop-blur-xl rounded-[40px] border border-white/10 shadow-2xl">
+        <div
+            className="w-full max-w-6xl p-10 bg-black/40 backdrop-blur-xl rounded-[40px] border border-white/10 shadow-2xl">
             <HallHeader
                 hallData={hallData}
                 setHallData={setHallData}
@@ -194,7 +196,7 @@ const CreateHallPage = () => {
                 onDeleteZone={deleteZone}
             />
 
-            <HallLegend configs={hallData.configs} />
+            <HallLegend configs={hallData.configs}/>
 
             <div className="flex justify-between items-center mb-4 px-4">
                 <div className="flex gap-2">
@@ -208,7 +210,7 @@ const CreateHallPage = () => {
                                 : 'bg-white/5 border-white/5 text-slate-700 cursor-not-allowed'
                         }`}
                     >
-                        <Undo2 size={14} /> {t('hall_editor.btn_undo')}
+                        <Undo2 size={14}/> {t('hall_editor.btn_undo')}
                     </button>
 
                     {/* FILL ALL */}
@@ -216,7 +218,7 @@ const CreateHallPage = () => {
                         onClick={() => fillAll(activeZone)}
                         className="flex items-center gap-2 px-4 py-2 bg-indigo-600/10 border border-indigo-500/30 rounded-xl text-[10px] font-black text-indigo-400 uppercase hover:bg-indigo-600 hover:text-white transition-all"
                     >
-                        <Paintbrush size={14} /> {t('hall_editor.btn_fill_all')}
+                        <Paintbrush size={14}/> {t('hall_editor.btn_fill_all')}
                     </button>
 
                     {/* CLEAR ALL */}
@@ -224,7 +226,7 @@ const CreateHallPage = () => {
                         onClick={clearAll}
                         className="flex items-center gap-2 px-4 py-2 bg-red-500/10 border border-red-500/30 rounded-xl text-[10px] font-black text-red-500 uppercase hover:bg-red-500 hover:text-white transition-all"
                     >
-                        <Trash2 size={14} /> {t('hall_editor.btn_clear_all')}
+                        <Trash2 size={14}/> {t('hall_editor.btn_clear_all')}
                     </button>
                 </div>
 
@@ -236,14 +238,15 @@ const CreateHallPage = () => {
                     }`}
                 >
                     {isZoomedOut ? (
-                        <><ZoomIn size={14} /> {t('hall_editor.btn_zoom_in')} </>
+                        <><ZoomIn size={14}/> {t('hall_editor.btn_zoom_in')} </>
                     ) : (
-                        <><ZoomOut size={14} /> {t('hall_editor.btn_zoom_out')}</>
+                        <><ZoomOut size={14}/> {t('hall_editor.btn_zoom_out')}</>
                     )}
-                </button>            </div>
+                </button>
+            </div>
 
-            <HallStats grid={hallData.grid} configs={hallData.configs} />
-            <HallScreen />
+            <HallStats grid={hallData.grid} configs={hallData.configs}/>
+            <HallScreen/>
 
             <HallSvgGrid
                 grid={hallData.grid}

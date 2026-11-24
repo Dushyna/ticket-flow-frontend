@@ -16,7 +16,7 @@ interface CinemaWithSessions {
 const MovieCinemasPage = () => {
     const { movieId } = useParams<{ movieId: string }>();
     const navigate = useNavigate();
-    const { t } = useTranslation();
+    const { t, i18n  } = useTranslation();
 
     const { data: showtimes, isLoading: isShowtimesLoading } = useGetShowtimesByMovieQuery(movieId || '');
     const { data: cinemas, isLoading: isCinemasLoading } = useGetCinemasQuery();
@@ -42,7 +42,7 @@ const MovieCinemasPage = () => {
         const sessionsForThisCinema = showtimes?.filter(s => s.cinemaId === cinema.id) || [];
 
         // Using your custom helper utility to group arrays by date labels
-        const groupedDates = groupShowtimesByDate(sessionsForThisCinema);
+        const groupedDates = groupShowtimesByDate(sessionsForThisCinema, i18n.language);
 
         return {
             id: cinema.id,

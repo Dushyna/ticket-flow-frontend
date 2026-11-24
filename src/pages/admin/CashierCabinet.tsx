@@ -19,7 +19,7 @@ import { calculateSeatPrice, checkSeatAvailability, toggleSeatInCart } from "../
 
 export const CashierCabinet = () => {
     const dispatch = useAppDispatch();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     // 1. Core State Selectors
     const [selectedCinemaId, setSelectedCinemaId] = useState<string>('');
@@ -204,7 +204,7 @@ export const CashierCabinet = () => {
                         </option>
                         {showtimes?.map(s => (
                             <option value={s.id} key={s.id}>
-                                {s.movieTitle} | {formatDateLabel(s.startTime)} @ {formatTime(s.startTime)} ({s.hallName})
+                                {s.movieTitle} | {formatDateLabel(s.startTime, i18n.language)} @ {formatTime(s.startTime)} ({s.hallName})
                             </option>
                         ))}
                     </select>
@@ -247,7 +247,8 @@ export const CashierCabinet = () => {
                                         >
                                             {ticketTypes?.map(tt => (
                                                 <option key={tt.id} value={tt.id}>
-                                                    {tt.label} (x{tt.discount})
+                                                    {t(`ticket_names.${tt.label.trim().toUpperCase()}`, { defaultValue: tt.label })}
+                                                    (x{tt.discount})
                                                 </option>
                                             ))}
                                         </select>

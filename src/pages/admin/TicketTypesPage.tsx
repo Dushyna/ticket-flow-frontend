@@ -186,7 +186,9 @@ const TicketTypesPage = () => {
                                     </div>
                                     <div>
                                         <div className="flex items-center gap-3">
-                                            <h3 className="font-black text-white text-lg uppercase italic tracking-tight">{type.label}</h3>
+                                            <h3 className="font-black text-white text-lg uppercase italic tracking-tight">
+                                                {t(`ticket_names.${type.label.trim().toUpperCase()}`, { defaultValue: type.label })}
+                                            </h3>
                                             {type.isDefault && (
                                                 <span className="flex items-center gap-1 text-[8px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full font-black uppercase tracking-widest border border-emerald-500/20">
                                                     <CheckCircle2 size={8} /> {t('ticket_types.badge_default')}

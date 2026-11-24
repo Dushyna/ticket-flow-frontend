@@ -90,7 +90,7 @@ const DashboardPage = () => {
                     !isLoading && (
                         <div
                             className="col-span-2 p-12 bg-white/5 border border-white/10 border-dashed rounded-3xl text-center">
-                            <p className="text-slate-400 italic mb-4">No cinemas found.</p>
+                            <p className="text-slate-400 italic mb-4">{t('dashboard.no_cinemas')}</p>
                             <p className="text-sm text-indigo-300 uppercase font-black tracking-widest">
                                 {t('dashboard.empty_hint')}
                             </p>

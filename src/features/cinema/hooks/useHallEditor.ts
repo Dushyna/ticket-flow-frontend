@@ -1,5 +1,5 @@
-import { useState } from "react";
-import {  type ZoneType, type ZoneConfig } from "../../../pages/hall/types";
+import {useState} from "react";
+import {type ZoneType, type ZoneConfig} from "../../../pages/hall/types";
 
 interface HallEditorState {
     name: string;
@@ -21,7 +21,7 @@ export const useHallEditor = (initialData: HallEditorState) => {
     const handleUndo = () => {
         if (history.length === 0) return;
         const previousGrid = history[history.length - 1];
-        setHallData((prev) => ({ ...prev, grid: previousGrid }));
+        setHallData((prev) => ({...prev, grid: previousGrid}));
         setHistory(prev => prev.slice(0, -1));
     };
 

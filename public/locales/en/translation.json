@@ -34,6 +34,7 @@
     "controller_gate": "Gate Control"
   },
   "login": {
+    "logged_in_as": "Logged in as",
     "title": "Sign In",
     "subtitle": "Welcome back! Please enter your details.",
     "email_placeholder": "Email Address",
@@ -60,6 +61,10 @@
   },
   "logged_in_as": "Logged in as",
   "dashboard": {
+    "btn_cashier_workspace": "Open Cashier",
+    "btn_gate_control": "Gate Control",
+    "btn_manage_staff": "Staff Control",
+    "no_cinemas": "No cinemas found.",
     "title_my": "My",
     "title_theaters": "Theaters",
     "btn_pricing": "Pricing",
@@ -314,6 +319,8 @@
     "error_empty": "No cinemas found!"
   },
   "hall_editor": {
+    "new_category": "New Category",
+    "default_hall_name": "New Hall",
     "btn_undo": "Undo",
     "btn_fill_all": "Fill All",
     "btn_clear_all": "Clear All",
@@ -416,6 +423,14 @@
     "role_updated_error": "Error: You do not have permission to modify roles or network timeout occurred."
   },
   "cashier": {
+    "th_action": "Action",
+    "btn_reprint": "Reprint",
+    "history_title": "Sales History",
+    "th_time": "Time",
+    "th_movie": "Movie",
+    "th_qty": "Qty",
+    "th_total": "Total",
+    "th_actions": "Actions",
     "workspace_title": "Box Office Workspace",
     "loading_cinemas": "Loading Cinemas...",
     "loading_hall_map": "Loading Hall Map Inventory...",
@@ -433,6 +448,12 @@
     "btn_print_tickets": "Print Cash Tickets ({{count}})",
     "sale_success": "Success! Physical ticket printed.",
     "sale_error": "Error: One of the selected seats was just locked or purchased by an online user."
+  },
+  "ticket_names": {
+    "ADULT": "Adult",
+    "STUDENT": "Student",
+    "CHILD": "Child",
+    "VIP": "VIP"
   }
 }
 

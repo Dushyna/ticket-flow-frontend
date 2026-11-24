@@ -9,7 +9,7 @@ import {useMemo, useState} from "react";
 
 const CinemaCard = ({ cinema }: { cinema: Cinema }) => {
     const navigate = useNavigate();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const { data: halls, isLoading: isHallsLoading  } = useGetHallsByCinemaQuery(cinema.id);
     const { data: showtimes, isLoading: isShowtimesLoading } = useGetShowtimesByCinemaQuery(cinema.id);
 
@@ -25,8 +25,8 @@ const CinemaCard = ({ cinema }: { cinema: Cinema }) => {
             return new Date(st.startTime).getTime() > cutoffTime;
         });
 
-        return groupShowtimesByDate(availableShowtimes);
-    }, [showtimes, pageLoadTime]);
+        return groupShowtimesByDate(availableShowtimes, i18n.language);
+    }, [showtimes, pageLoadTime, i18n.language]);
 
     return (
         <div className="p-8 bg-white/5 border border-white/10 rounded-3xl hover:bg-white/10 hover:border-indigo-500/50 transition-all group">
